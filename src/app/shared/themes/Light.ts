@@ -6,7 +6,7 @@ export const LightTheme = createTheme({
         primary: {
             main: deepPurple['700'],
             dark: deepPurple['800'],
-            light: deepPurple['500'],
+            light: deepPurple['400'],
             contrastText: common['white'],
 
         },
@@ -17,9 +17,12 @@ export const LightTheme = createTheme({
             contrastText: common['black'],
         },
         background: {
-            default: grey['100'],
+            default: grey['300'],
             paper: common['white'],
         }
+    },
+    typography: {
+        fontFamily: 'Poppins, Roboto'
     }
 });
 

@@ -7,10 +7,10 @@ function Routes() {
     return (
         <BrowserRouter>
                 <Switch>
-                    <Route path={"/"} element={<Home />} />
+                    <Route path={"/home"} element={<Home />} />
                     <Route path={"/login"} element={<Login />} />
 
-                    <Route path={"*"} element={<Navigate to="/" />} />
+                    <Route path={"*"} element={<Navigate to="/login" />} />
                 </Switch>
         </BrowserRouter>
     );
