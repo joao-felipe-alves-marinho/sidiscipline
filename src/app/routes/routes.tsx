@@ -1,16 +1,12 @@
 
-import { Route, BrowserRouter, Routes as Switch, Navigate } from "react-router-dom";
-import Login from "../pages/Login";
-import Home from "../pages/Home";
+import { Button } from '@mui/material';
+import { Route, BrowserRouter, Routes as Switch } from 'react-router-dom';
 
 function Routes() {
     return (
         <BrowserRouter>
                 <Switch>
-                    <Route path={"/home"} element={<Home />} />
-                    <Route path={"/login"} element={<Login />} />
-
-                    <Route path={"*"} element={<Navigate to="/login" />} />
+                    <Route path={'*'} element={<Button variant='contained'>Menu</Button>} />
                 </Switch>
         </BrowserRouter>
     );

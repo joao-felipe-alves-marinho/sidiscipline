@@ -1,5 +1,5 @@
-import { createTheme } from "@mui/material";
-import { common, deepPurple, green, grey } from "@mui/material/colors";
+import { createTheme } from '@mui/material';
+import { common, deepPurple, green, grey } from '@mui/material/colors';
 
 export const LightTheme = createTheme({
     palette: {
@@ -17,12 +17,30 @@ export const LightTheme = createTheme({
             contrastText: common['black'],
         },
         background: {
-            default: grey['300'],
+            default: grey['400'],
             paper: common['white'],
         }
     },
     typography: {
         fontFamily: 'Poppins, Roboto'
+    },
+    components: {
+        MuiButton: {
+            defaultProps: {
+                variant: 'contained'
+            }
+        },
+        MuiListItemText: {
+            defaultProps: {
+                primaryTypographyProps: {
+                    color: '#000000a7'
+                }
+            }
+        },
+        MuiDivider: {
+            defaultProps: {
+                color: grey['400']
+            }
+        }
     }
 });
-
