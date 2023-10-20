@@ -17,7 +17,7 @@ export const LightTheme = createTheme({
             contrastText: common['black'],
         },
         background: {
-            default: grey['400'],
+            default: grey['300'],
             paper: common['white'],
         }
     },
@@ -30,16 +30,28 @@ export const LightTheme = createTheme({
                 variant: 'contained'
             }
         },
-        MuiListItemText: {
-            defaultProps: {
-                primaryTypographyProps: {
-                    color: '#000000a7'
-                }
-            }
-        },
+
         MuiDivider: {
             defaultProps: {
                 color: grey['400']
+            }
+        },
+
+        MuiListItemButton: {
+            styleOverrides: {
+                root: {
+                    '&.Mui-selected': {
+                        backgroundColor: grey['300']
+                    }
+                }
+            },
+        },
+
+        MuiListItemText: {
+            defaultProps: {
+                primaryTypographyProps: {
+                    color: '#000000bf'
+                }
             }
         }
     }

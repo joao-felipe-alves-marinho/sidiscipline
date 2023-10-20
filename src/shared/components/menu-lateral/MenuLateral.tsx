@@ -1,22 +1,32 @@
 import { ChevronLeft } from '@mui/icons-material';
-import { Avatar, Box, Divider, Drawer, Stack, useTheme, IconButton, Typography } from '@mui/material';
+import { Avatar, Box, Divider, Drawer, Stack, useTheme, IconButton, Typography, useMediaQuery } from '@mui/material';
 import { PropsWithChildren } from 'react';
-import { MenuList } from './MenuList';
+import { MenuLateralList } from './MenuLateralList';
+import { useDrawerContext } from '../../contexts';
 
 
 export const MenuLateral: React.FC<PropsWithChildren> = ({ children }) => {
     const theme = useTheme();
+    const smDown = useMediaQuery(theme.breakpoints.down('sm'));
+
+    const { isDrawerOpen, toggleDrawer } = useDrawerContext();
+
     return (
         <>
             <Box display='flex'>
-                <Drawer variant='permanent' sx={{
-                    width: theme.spacing(25),
-                    '& .MuiDrawer-paper': {
-                        width: theme.spacing(25),
-                        boxSizing: 'border-box',
-                    },
-                }}>
+                <Drawer key='menu-lateral' variant={smDown ? 'temporary' : 'permanent'}
+                    open={isDrawerOpen}
+                    onClose={toggleDrawer}
+                    sx={{
+                        width: theme.spacing(30),
+                        '& .MuiDrawer-paper': {
+                            width: theme.spacing(30),
+                            height: '100vh',
+                            boxSizing: 'border-box',
+                        },
+                    }}>
                     <Stack
+                        height='100%'
                         display='flex'
                         flexDirection='column'
                         divider={<Divider variant='middle' />}>
@@ -30,7 +40,7 @@ export const MenuLateral: React.FC<PropsWithChildren> = ({ children }) => {
                                 width='100%'
                                 display='flex'
                                 justifyContent='flex-end'>
-                                <IconButton size='large' >
+                                <IconButton onClick={toggleDrawer} aria-label='closeMenu' size='large' >
                                     <ChevronLeft />
                                 </IconButton>
                             </Box>
@@ -44,8 +54,8 @@ export const MenuLateral: React.FC<PropsWithChildren> = ({ children }) => {
                             </Avatar>
                             <Typography paddingY={1} variant='body1'>Gustavo Gomes</Typography>
                         </Box>
-                        <Box flex={1}>
-                            <MenuList></MenuList>
+                        <Box display='flex' flex={1}>
+                            <MenuLateralList />
                         </Box>
                     </Stack>
                 </Drawer>
