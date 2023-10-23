@@ -5,7 +5,7 @@ const listItens = [
     {
         label: 'Home',
         icon: 'home',
-        to: 'home'
+        to: '/home'
     },
 ];
 
@@ -17,7 +17,7 @@ interface IMenuLateralListItensProps {
 
 const MenuLateralListItens: React.FC<IMenuLateralListItensProps> = ({ label, to, icon }) => {
     const resolvePath = useResolvedPath(to);
-    const match = useMatch({ path: resolvePath.pathname, end: false});
+    const match = useMatch({ path: resolvePath.pathname, end: false });
 
     return (
         <ListItem disablePadding>
@@ -37,16 +37,26 @@ export const MenuLateralList = () => {
         <Box sx={{
             display: 'flex',
             flexDirection: 'column',
-            flex: 1
+            flex: 1,
         }}>
-            <List>
-                {listItens.map((item, i) => (
-                    <MenuLateralListItens key={i} label={item.label} icon={item.icon} to={item.to} />
-                ))}
-            </List>
-            <Box sx={{ marginTop: 'auto' }}>
+            <Box flex={1}>
+                <List>
+                    {listItens.map((item, i) => (
+                        <MenuLateralListItens key={i} label={item.label} icon={item.icon} to={item.to} />
+                    ))}
+                </List>
+            </Box>
+            <Box>
                 <Divider variant='middle' />
                 <List>
+                    <ListItem key='theme-toggle' disablePadding>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <Icon>dark_mode</Icon>
+                            </ListItemIcon>
+                            <ListItemText primary='Tema Escuro' />
+                        </ListItemButton>
+                    </ListItem>
                     <ListItem key='log-out' disablePadding>
                         <ListItemButton>
                             <ListItemIcon>

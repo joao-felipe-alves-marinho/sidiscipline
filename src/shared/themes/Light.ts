@@ -1,5 +1,5 @@
-import { createTheme } from '@mui/material';
 import { common, deepPurple, green, grey } from '@mui/material/colors';
+import { createTheme } from '@mui/material';
 
 export const LightTheme = createTheme({
     palette: {
@@ -21,9 +21,14 @@ export const LightTheme = createTheme({
             paper: common['white'],
         }
     },
+
     typography: {
-        fontFamily: 'Poppins, Roboto'
+        allVariants: {
+            fontFamily: 'Poppins, Roboto'
+        }
     },
+
+
     components: {
         MuiButton: {
             defaultProps: {
@@ -45,6 +50,14 @@ export const LightTheme = createTheme({
                     }
                 }
             },
+        },
+
+        MuiListItemIcon: {
+            styleOverrides: {
+                root: {
+                    color: '#000000bf'
+                }
+            }
         },
 
         MuiListItemText: {

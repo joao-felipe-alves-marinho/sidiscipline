@@ -1,6 +1,7 @@
-import { ChevronLeft } from '@mui/icons-material';
-import { Avatar, Box, Divider, Drawer, Stack, useTheme, IconButton, Typography, useMediaQuery } from '@mui/material';
 import { PropsWithChildren } from 'react';
+import { Avatar, Box, Divider, Drawer, Stack, useTheme, IconButton, Typography, useMediaQuery } from '@mui/material';
+import { ChevronLeft } from '@mui/icons-material';
+
 import { MenuLateralList } from './MenuLateralList';
 import { useDrawerContext } from '../../contexts';
 
@@ -14,7 +15,8 @@ export const MenuLateral: React.FC<PropsWithChildren> = ({ children }) => {
     return (
         <>
             <Box display='flex'>
-                <Drawer key='menu-lateral' variant={smDown ? 'temporary' : 'permanent'}
+                <Drawer key='menu-lateral'
+                    variant={smDown ? 'temporary' : 'permanent'}
                     open={isDrawerOpen}
                     onClose={toggleDrawer}
                     sx={{
@@ -24,22 +26,26 @@ export const MenuLateral: React.FC<PropsWithChildren> = ({ children }) => {
                             height: '100vh',
                             boxSizing: 'border-box',
                         },
-                    }}>
+                    }}
+                >
                     <Stack
                         height='100%'
                         display='flex'
                         flexDirection='column'
-                        divider={<Divider variant='middle' />}>
+                        divider={<Divider variant='middle' />}
+                    >
                         <Box
                             width='100%'
                             display='flex'
                             flexDirection='column'
                             alignItems='center'
-                            justifyContent='center'>
+                            justifyContent='center'
+                        >
                             <Box
                                 width='100%'
                                 display='flex'
-                                justifyContent='flex-end'>
+                                justifyContent='flex-end'
+                            >
                                 <IconButton onClick={toggleDrawer} aria-label='closeMenu' size='large' >
                                     <ChevronLeft />
                                 </IconButton>
