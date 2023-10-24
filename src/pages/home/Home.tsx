@@ -3,7 +3,7 @@ import { LayoutBase } from '../../shared/layouts';
 export const Home = () => {
     return (
         <LayoutBase>
-            <h2>213</h2>
+            <h1>Home</h1>
         </LayoutBase>
     );
 };

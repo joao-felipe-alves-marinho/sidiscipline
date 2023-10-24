@@ -1,6 +1,9 @@
 import { common, deepPurple, green, grey } from '@mui/material/colors';
 import { createTheme } from '@mui/material';
 
+const contrastGrey = '#000000ae';
+const contrastGrey2 = '#000000bf';
+
 export const LightTheme = createTheme({
     palette: {
         primary: {
@@ -28,6 +31,15 @@ export const LightTheme = createTheme({
         }
     },
 
+    breakpoints: {
+        values: {
+            xs: 300,
+            sm: 600,
+            md: 900,
+            lg: 1200,
+            xl: 1536,
+        }
+    },
 
     components: {
         MuiButton: {
@@ -55,7 +67,7 @@ export const LightTheme = createTheme({
         MuiListItemIcon: {
             styleOverrides: {
                 root: {
-                    color: '#000000bf'
+                    color: contrastGrey2
                 }
             }
         },
@@ -63,8 +75,35 @@ export const LightTheme = createTheme({
         MuiListItemText: {
             defaultProps: {
                 primaryTypographyProps: {
-                    color: '#000000bf'
+                    color: contrastGrey2
                 }
+            }
+        },
+
+        MuiTextField: {
+            styleOverrides: {
+                root: {
+                    '& label': {
+                        color: contrastGrey,
+                    },
+                    '& label.Mui-focused': {
+                        color: contrastGrey,
+                    },
+                    '& .MuiInput-underline:after': {
+                        borderBottomColor: contrastGrey,
+                    },
+                    '& .MuiOutlinedInput-root': {
+                        '& fieldset': {
+                            borderColor: contrastGrey,
+                        },
+                        '&:hover fieldset': {
+                            borderColor: contrastGrey,
+                        },
+                        '&.Mui-focused fieldset': {
+                            borderColor: contrastGrey,
+                        },
+                    },
+                },
             }
         }
     }

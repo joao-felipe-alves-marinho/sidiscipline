@@ -46,7 +46,7 @@ export const MenuLateral: React.FC<PropsWithChildren> = ({ children }) => {
                                 display='flex'
                                 justifyContent='flex-end'
                             >
-                                <IconButton onClick={toggleDrawer} aria-label='closeMenu' size='large' >
+                                <IconButton onClick={toggleDrawer} aria-label='Fechar o menu lateral' size='large' >
                                     <ChevronLeft />
                                 </IconButton>
                             </Box>
