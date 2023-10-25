@@ -1,5 +1,17 @@
-import { Box, Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Link, Stack, TextField, Typography, useTheme } from '@mui/material';
+import {
+    Box,
+    Button,
+    Checkbox,
+    FormControl,
+    FormControlLabel,
+    FormHelperText,
+    Link, Stack,
+    TextField,
+    Typography,
+    useTheme
+} from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
@@ -21,7 +33,9 @@ const CadastroSchema = yup.object({
 
 export const Cadastro = () => {
     const theme = useTheme();
-    const { singin } = useAuthContext();
+    const navigate = useNavigate();
+
+    const { signup } = useAuthContext();
 
     const { register, handleSubmit, formState } = useForm({
         defaultValues: {
@@ -33,8 +47,8 @@ export const Cadastro = () => {
     const { errors } = formState;
 
     const onSubmit = (dados: ICadastroDadosForm) => {
-        singin(dados.username, dados.email, dados.password);
-        
+        signup(dados.username, dados.email, dados.password);
+        navigate('/login');
     };
 
     return (

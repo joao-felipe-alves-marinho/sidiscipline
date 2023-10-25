@@ -1,10 +1,15 @@
-import { PropsWithChildren, createContext, useCallback, useContext, useState } from 'react';
+import {
+    PropsWithChildren,
+    createContext, useCallback,
+    useContext,
+    useState
+} from 'react';
 
 interface IAuthContextData {
-    singin: (username: string, email: string, password: string) => void;
+    signup: (username: string, email: string, password: string) => void;
     login: (email: string, password: string) => void;
     isAuthenticated: boolean;
-    useData: {username: string, email: string, password: string};
+    useData: { username: string, email: string, password: string };
 }
 
 const AuthContext = createContext({} as IAuthContextData);
@@ -22,7 +27,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    const handleSingin = useCallback((username: string, email: string, password: string) => {
+    const handleSignUp = useCallback((username: string, email: string, password: string) => {
         setUseData({
             username: username,
             email: email,
@@ -34,11 +39,11 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
         if (email == useData.email && password == useData.password) {
             setIsAuthenticated(true);
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
-        <AuthContext.Provider value={{ singin: handleSingin, login: handleLogin, isAuthenticated, useData: useData }} >
+        <AuthContext.Provider value={{ signup: handleSignUp, login: handleLogin, isAuthenticated, useData: useData }} >
             {children}
         </AuthContext.Provider>
     );

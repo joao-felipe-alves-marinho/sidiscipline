@@ -1,9 +1,22 @@
 import { PropsWithChildren } from 'react';
-import { Avatar, Box, Divider, Drawer, Stack, useTheme, IconButton, Typography, useMediaQuery } from '@mui/material';
+import {
+    Avatar,
+    Box,
+    Divider,
+    Drawer,
+    Stack,
+    useTheme,
+    IconButton,
+    Typography,
+    useMediaQuery
+} from '@mui/material';
 import { ChevronLeft } from '@mui/icons-material';
 
 import { MenuLateralList } from './MenuLateralList';
-import { useAuthContext, useDrawerContext } from '../../contexts';
+import {
+    useAuthContext,
+    useDrawerContext
+} from '../../contexts';
 
 
 export const MenuLateral: React.FC<PropsWithChildren> = ({ children }) => {

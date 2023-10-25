@@ -1,9 +1,16 @@
 import { BrowserRouter } from 'react-router-dom';
 
-import { AppThemeProvider, AuthProvider, DrawerProvider, useAuthContext } from './shared/contexts';
+import {
+  AppThemeProvider,
+  AuthProvider,
+  DrawerProvider,
+  useAuthContext
+} from './shared/contexts';
 import { MenuLateral } from './shared/components';
-import { Routes } from './routes/routes';
-import { RoutesAuth } from './routes/routesAuth';
+import {
+  Routes,
+  RoutesAuth
+} from './routes';
 
 export const App = () => {
   const { isAuthenticated } = useAuthContext();

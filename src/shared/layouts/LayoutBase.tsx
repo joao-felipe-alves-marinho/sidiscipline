@@ -1,6 +1,15 @@
 import { PropsWithChildren } from 'react';
 
-import { AppBar, Box, Icon, IconButton, Toolbar, Typography, useMediaQuery, useTheme } from '@mui/material';
+import {
+    AppBar,
+    Box,
+    Icon,
+    IconButton,
+    Toolbar,
+    Typography,
+    useMediaQuery,
+    useTheme
+} from '@mui/material';
 
 import { useDrawerContext } from '../contexts';
 
@@ -33,7 +42,7 @@ export const LayoutBase: React.FC<PropsWithChildren> = ({ children }) => {
                 </Toolbar>
             </AppBar>
             <Box flex={1}>
-            {children}
+                {children}
             </Box>
         </Box>
     );

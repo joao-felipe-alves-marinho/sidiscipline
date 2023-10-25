@@ -1,6 +1,14 @@
-import { Navigate, Route, Routes as Switch } from 'react-router-dom';
+import {
+    Navigate,
+    Route,
+    Routes as Switch
+} from 'react-router-dom';
 
-import { Cadastro, Login, RecuperarSenha } from '../pages';
+import {
+    Cadastro,
+    Login,
+    RecuperarSenha
+} from '../pages';
 
 
 export const RoutesAuth = () => {
