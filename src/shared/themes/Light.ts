@@ -3,6 +3,7 @@ import { createTheme } from '@mui/material';
 
 const contrastGrey = '#000000ae';
 const contrastGrey2 = '#000000bf';
+const contrastRed = '#930000';
 
 export const LightTheme = createTheme({
     palette: {
@@ -18,6 +19,9 @@ export const LightTheme = createTheme({
             dark: green['A700'],
             light: green['A200'],
             contrastText: common['black'],
+        },
+        error: {
+            main: contrastRed,
         },
         background: {
             default: grey['300'],
@@ -102,9 +106,11 @@ export const LightTheme = createTheme({
                         '&.Mui-focused fieldset': {
                             borderColor: contrastGrey,
                         },
-                    },
+                    }
                 },
             }
-        }
+        },
+
+
     }
 });

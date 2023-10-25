@@ -3,7 +3,7 @@ import { Avatar, Box, Divider, Drawer, Stack, useTheme, IconButton, Typography, 
 import { ChevronLeft } from '@mui/icons-material';
 
 import { MenuLateralList } from './MenuLateralList';
-import { useDrawerContext } from '../../contexts';
+import { useAuthContext, useDrawerContext } from '../../contexts';
 
 
 export const MenuLateral: React.FC<PropsWithChildren> = ({ children }) => {
@@ -11,6 +11,7 @@ export const MenuLateral: React.FC<PropsWithChildren> = ({ children }) => {
     const smDown = useMediaQuery(theme.breakpoints.down('sm'));
 
     const { isDrawerOpen, toggleDrawer } = useDrawerContext();
+    const { useData } = useAuthContext();
 
     return (
         <>
@@ -56,9 +57,9 @@ export const MenuLateral: React.FC<PropsWithChildren> = ({ children }) => {
                                 bgcolor: 'secondary.main',
                                 color: 'black'
                             }}>
-                                G
+                                D
                             </Avatar>
-                            <Typography paddingY={1} variant='body1'>Gustavo Gomes</Typography>
+                            <Typography paddingY={1} variant='body1'>{useData.username}</Typography>
                         </Box>
                         <Box display='flex' flex={1}>
                             <MenuLateralList />
