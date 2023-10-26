@@ -7,7 +7,8 @@ import {
 
 interface IAuthContextData {
     signup: (username: string, email: string, password: string) => void;
-    login: (email: string, password: string) => void;
+    login: (email: string, password: string) => boolean;
+    logout: () => void;
     isAuthenticated: boolean;
     useData: { username: string, email: string, password: string };
 }
@@ -19,13 +20,13 @@ export const useAuthContext = () => {
 };
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
     const [useData, setUseData] = useState({
         username: 'admin',
         email: 'admin@admin',
         password: 'admin',
     });
 
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     const handleSignUp = useCallback((username: string, email: string, password: string) => {
         setUseData({
@@ -35,15 +36,21 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
         });
     }, []);
 
-    const handleLogin = useCallback((email: string, password: string) => {
+    const handleLogIn = useCallback((email: string, password: string) => {
         if (email == useData.email && password == useData.password) {
             setIsAuthenticated(true);
+            return true;
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        return false;
+    }, [useData.email, useData.password]);
+
+    const handleLogOut = useCallback(() => {
+        setIsAuthenticated(false);
     }, []);
 
+
     return (
-        <AuthContext.Provider value={{ signup: handleSignUp, login: handleLogin, isAuthenticated, useData: useData }} >
+        <AuthContext.Provider value={{ signup: handleSignUp, login: handleLogIn, logout: handleLogOut, isAuthenticated, useData: useData }} >
             {children}
         </AuthContext.Provider>
     );

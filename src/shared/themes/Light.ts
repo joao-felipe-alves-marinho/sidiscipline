@@ -6,23 +6,19 @@ import {
 } from '@mui/material/colors';
 import { createTheme } from '@mui/material';
 
-const contrastGrey = '#000000ae';
-const contrastGrey2 = '#000000bf';
+const contrastTextField = '#000000ae';
+const contrastListItemText = '#000000bf';
 const contrastRed = '#930000';
 
 export const LightTheme = createTheme({
     palette: {
         primary: {
             main: deepPurple['700'],
-            dark: deepPurple['800'],
-            light: deepPurple['400'],
             contrastText: common['white'],
 
         },
         secondary: {
             main: green['A400'],
-            dark: green['A700'],
-            light: green['A200'],
             contrastText: common['black'],
         },
         error: {
@@ -31,7 +27,9 @@ export const LightTheme = createTheme({
         background: {
             default: grey['300'],
             paper: common['white'],
-        }
+        },
+        divider: grey['400'],
+
     },
 
     typography: {
@@ -59,7 +57,13 @@ export const LightTheme = createTheme({
 
         MuiDivider: {
             defaultProps: {
-                color: grey['400']
+                variant: 'middle'
+            }
+        },
+
+        MuiLink: {
+            defaultProps: {
+                fontFamily: 'Poppins, Roboto'
             }
         },
 
@@ -76,7 +80,7 @@ export const LightTheme = createTheme({
         MuiListItemIcon: {
             styleOverrides: {
                 root: {
-                    color: contrastGrey2
+                    color: contrastListItemText
                 }
             }
         },
@@ -84,7 +88,7 @@ export const LightTheme = createTheme({
         MuiListItemText: {
             defaultProps: {
                 primaryTypographyProps: {
-                    color: contrastGrey2
+                    color: contrastListItemText
                 }
             }
         },
@@ -93,29 +97,27 @@ export const LightTheme = createTheme({
             styleOverrides: {
                 root: {
                     '& label': {
-                        color: contrastGrey,
+                        color: contrastTextField,
                     },
                     '& label.Mui-focused': {
-                        color: contrastGrey,
+                        color: contrastTextField,
                     },
                     '& .MuiInput-underline:after': {
-                        borderBottomColor: contrastGrey,
+                        borderBottomColor: contrastTextField,
                     },
                     '& .MuiOutlinedInput-root': {
                         '& fieldset': {
-                            borderColor: contrastGrey,
+                            borderColor: contrastTextField,
                         },
                         '&:hover fieldset': {
-                            borderColor: contrastGrey,
+                            borderColor: contrastTextField,
                         },
                         '&.Mui-focused fieldset': {
-                            borderColor: contrastGrey,
+                            borderColor: contrastTextField,
                         },
                     }
                 },
             }
         },
-
-
     }
 });

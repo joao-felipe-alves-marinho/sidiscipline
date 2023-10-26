@@ -1,2 +1,2 @@
 export * from './Light';
-export { DarkTheme } from './Dark';
+export * from './Dark';

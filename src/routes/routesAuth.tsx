@@ -1,5 +1,4 @@
 import {
-    Navigate,
     Route,
     Routes as Switch
 } from 'react-router-dom';
@@ -17,8 +16,6 @@ export const RoutesAuth = () => {
             <Route path='/login' element={<Login />} />
             <Route path='/cadastro' element={<Cadastro />} />
             <Route path='/recuperar-senha' element={<RecuperarSenha />} />
-
-            <Route path='*' element={<Navigate to='/cadastro' />} />
         </Switch>
     );
 };

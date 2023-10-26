@@ -22,7 +22,7 @@ export const LayoutBase: React.FC<PropsWithChildren> = ({ children }) => {
 
     return (
         <Box height='100vh' width='100%' display='flex' flexDirection='column' gap={5}>
-            <AppBar position='static' color='primary'>
+            <AppBar position='static' color='primary' enableColorOnDark>
                 <Toolbar
                     disableGutters
                     component={Box}

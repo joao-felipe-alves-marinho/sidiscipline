@@ -24,11 +24,11 @@ interface ICadastroDadosForm {
 }
 
 const CadastroSchema = yup.object({
-    username: yup.string().required('Obrigatorio'),
-    email: yup.string().required('Obrigatorio').email('E-mail'),
-    password: yup.string().required('Obrigatorio').min(5, 'Minino'),
-    passwordConfirmation: yup.string().oneOf([yup.ref('password')], 'Passwords must match'),
-    termsAndServices: yup.bool().isTrue('Obroiatior'),
+    username: yup.string().required('Esse campo é obrigatorio.'),
+    email: yup.string().required('Esse campo é obrigatorio.').email('E-mail invalido.'),
+    password: yup.string().required('Esse campo é obrigatorio.').min(5, 'A senha deve ter pelo menos 5 caracteres.'),
+    passwordConfirmation: yup.string().oneOf([yup.ref('password')], 'As senhas não coincidem.'),
+    termsAndServices: yup.bool().isTrue('Esse campo é obrigatorio.'),
 });
 
 export const Cadastro = () => {
@@ -37,14 +37,16 @@ export const Cadastro = () => {
 
     const { signup } = useAuthContext();
 
-    const { register, handleSubmit, formState } = useForm({
+    const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
-
+            username: '',
+            email: '',
+            password: '',
+            passwordConfirmation: '',
+            termsAndServices: undefined,
         },
         resolver: yupResolver(CadastroSchema)
     });
-
-    const { errors } = formState;
 
     const onSubmit = (dados: ICadastroDadosForm) => {
         signup(dados.username, dados.email, dados.password);
@@ -62,16 +64,16 @@ export const Cadastro = () => {
                 alignItems='center'
                 color='primary.contrastText'
             >
-                <Typography mt={14} variant='h2' color=''><b>SIDI</b>SCIPLINE</Typography>
+                <Typography mt={14} variant='h2' color='inherit'><b>SIDI</b>SCIPLINE</Typography>
                 <Typography mx={6} mt={10} align='center' fontSize={theme.spacing(3)}>Seja bem-vindo e controle seu tempo!</Typography>
                 <Typography mt={10} mb={2}>Faça seu login para continuar.</Typography>
                 <Button href='/login' sx={{ width: theme.spacing(35), height: theme.spacing(6), fontSize: theme.spacing(2.5) }} color='secondary'>Entrar</Button>
-                <Link fontFamily='Poppins' mt={2} color='inherit' underline='always' href='/recuperar-senha'>Esqueci minha senha</Link>
+                <Link mt={2} color='inherit' underline='always' href='/recuperar-senha'>Esqueci minha senha</Link>
 
             </Box>
             <Box flex={1} display='flex' justifyContent='center' alignItems='center' m={2}>
                 <Stack spacing={2} component='form' onSubmit={handleSubmit(onSubmit)}>
-                    <Typography color='primary.dark' variant='h3'><b>CRIE SUA CONTA</b></Typography>
+                    <Typography color='primary' variant='h3'><b>CRIE SUA CONTA</b></Typography>
                     <Typography mt={1} mb={4}>Registre-se para não perder um minuto.</Typography>
 
                     <TextField
