@@ -1,11 +1,26 @@
-import { Box, Divider, Icon, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { useMatch, useResolvedPath } from 'react-router-dom';
+import React from 'react';
+import {
+    useMatch,
+    useResolvedPath
+} from 'react-router-dom';
+import {
+    Box,
+    Divider,
+    Icon,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+} from '@mui/material';
+
+import { useAppThemeContext, useAuthContext } from '../../contexts';
 
 const listItens = [
     {
         label: 'Home',
         icon: 'home',
-        to: '/home'
+        to: '/home',
     },
 ];
 
@@ -32,41 +47,52 @@ const MenuLateralListItens: React.FC<IMenuLateralListItensProps> = ({ label, to,
 };
 
 export const MenuLateralList = () => {
+    const { toggleTheme, themeName } = useAppThemeContext();
+    const { logout } = useAuthContext();
 
     return (
-        <Box sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            flex: 1,
-        }}>
+        <Box
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                flex: 1,
+            }}
+        >
             <Box flex={1}>
                 <List>
                     {listItens.map((item, i) => (
-                        <MenuLateralListItens key={i} label={item.label} icon={item.icon} to={item.to} />
+                        <MenuLateralListItens
+                            key={i}
+                            label={item.label}
+                            icon={item.icon}
+                            to={item.to}
+                        />
                     ))}
                 </List>
             </Box>
             <Box>
-                <Divider variant='middle' />
+                <Divider variant="middle" />
                 <List>
-                    <ListItem key='theme-toggle' disablePadding>
-                        <ListItemButton>
+                    <ListItem key="theme-toggle" disablePadding>
+                        <ListItemButton onClick={toggleTheme}>
                             <ListItemIcon>
-                                <Icon>dark_mode</Icon>
+                                <Icon>{themeName === 'dark' ? 'light_mode' : 'dark_mode'}</Icon>
                             </ListItemIcon>
-                            <ListItemText primary='Tema Escuro' />
+                            <ListItemText
+                                primary={themeName === 'dark' ? 'Tema Claro' : 'Tema Escuro'}
+                            />
                         </ListItemButton>
                     </ListItem>
-                    <ListItem key='log-out' disablePadding>
-                        <ListItemButton>
+                    <ListItem key="log-out" disablePadding>
+                        <ListItemButton onClick={logout}>
                             <ListItemIcon>
-                                <Icon >logout</Icon>
+                                <Icon>logout</Icon>
                             </ListItemIcon>
-                            <ListItemText primary='Log out' />
+                            <ListItemText primary="Log out" />
                         </ListItemButton>
                     </ListItem>
-                </List >
+                </List>
             </Box>
-        </Box >
+        </Box>
     );
 };

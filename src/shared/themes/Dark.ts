@@ -7,33 +7,38 @@ import {
 import { createTheme } from '@mui/material';
 
 const contrastTextField = '#000000ae';
-const contrastListItemText = '#000000bf';
+const contrastListItemText = common['white'];
 const contrastRed = '#930000';
 
-export const LightTheme = createTheme({
+export const DarkTheme = createTheme({
     palette: {
+        mode: 'dark',
         primary: {
             main: deepPurple['700'],
+            dark: deepPurple['800'],
+            light: deepPurple['400'],
             contrastText: common['white'],
 
         },
         secondary: {
             main: green['A400'],
+            dark: green['A700'],
+            light: green['A200'],
             contrastText: common['black'],
         },
         error: {
             main: contrastRed,
         },
         background: {
-            default: grey['300'],
-            paper: common['white'],
+            paper: grey['800'],
+            default: grey['900'],
         },
         divider: grey['400'],
-
     },
 
     typography: {
         allVariants: {
+            color: common['white'],
             fontFamily: 'Poppins, Roboto'
         }
     },
@@ -61,17 +66,11 @@ export const LightTheme = createTheme({
             }
         },
 
-        MuiLink: {
-            defaultProps: {
-                fontFamily: 'Poppins, Roboto'
-            }
-        },
-
         MuiListItemButton: {
             styleOverrides: {
                 root: {
                     '&.Mui-selected': {
-                        backgroundColor: grey['300']
+                        backgroundColor: grey['900']
                     }
                 }
             },
@@ -90,6 +89,12 @@ export const LightTheme = createTheme({
                 primaryTypographyProps: {
                     color: contrastListItemText
                 }
+            }
+        },
+
+        MuiLink: {
+            defaultProps: {
+                fontFamily: 'Poppins, Roboto'
             }
         },
 

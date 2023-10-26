@@ -1,4 +1,10 @@
-import { PropsWithChildren, createContext, useCallback, useContext, useState } from 'react';
+import {
+    PropsWithChildren,
+    createContext,
+    useCallback,
+    useContext,
+    useState
+} from 'react';
 
 interface IDrawerContextData {
     isDrawerOpen: boolean;

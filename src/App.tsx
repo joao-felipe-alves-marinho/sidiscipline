@@ -1,34 +1,38 @@
 import { BrowserRouter } from 'react-router-dom';
 
-import { AppThemeProvider, DrawerProvider } from './shared/contexts';
+import {
+    AppThemeProvider,
+    AuthProvider,
+    DrawerProvider,
+    useAuthContext
+} from './shared/contexts';
 import { MenuLateral } from './shared/components';
-import { Routes } from './routes/routes';
-import { RoutesAuth } from './routes/routesAuth';
+import {
+    Routes,
+    RoutesAuth
+} from './routes';
 
 export const App = () => {
-  const auth = true;
+    const { isAuthenticated } = useAuthContext();
 
-  if (auth) return (
-    <AppThemeProvider>
-      <BrowserRouter>
-        <RoutesAuth />
-      </BrowserRouter>
-    </AppThemeProvider>
-  );
+    return (
+        <AppThemeProvider>
+            <AuthProvider>
 
-  return (
-    <AppThemeProvider>
+                <BrowserRouter>
 
-      <DrawerProvider>
-        <BrowserRouter>
+                    {isAuthenticated ?
+                        <DrawerProvider>
+                            <MenuLateral>
+                                <Routes />
+                            </MenuLateral>
+                        </DrawerProvider>
+                        :
+                        <RoutesAuth />
+                    }
 
-          <MenuLateral>
-            <Routes />
-          </MenuLateral>
-
-        </BrowserRouter>
-      </DrawerProvider>
-
-    </AppThemeProvider>
-  );
+                </BrowserRouter>
+            </AuthProvider>
+        </AppThemeProvider >
+    );
 };
