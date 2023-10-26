@@ -4,7 +4,6 @@ import {
     AppThemeProvider,
     AuthProvider,
     DrawerProvider,
-    useAuthContext
 } from './shared/contexts';
 import { MenuLateral } from './shared/components';
 import {
@@ -13,7 +12,6 @@ import {
 } from './routes';
 
 export const App = () => {
-    const { isAuthenticated } = useAuthContext();
 
     return (
         <AppThemeProvider>
@@ -21,7 +19,7 @@ export const App = () => {
 
                 <BrowserRouter>
 
-                    {isAuthenticated ?
+                    {localStorage.getItem('isAuth') == 'true' ?
                         <DrawerProvider>
                             <MenuLateral>
                                 <Routes />

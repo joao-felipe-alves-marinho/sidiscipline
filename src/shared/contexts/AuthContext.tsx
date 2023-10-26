@@ -2,13 +2,13 @@ import {
     PropsWithChildren,
     createContext, useCallback,
     useContext,
+    useEffect,
     useState
 } from 'react';
 
 interface IAuthContextData {
     signup: (username: string, email: string, password: string) => void;
     login: (email: string, password: string) => boolean;
-    logout: () => void;
     isAuthenticated: boolean;
     useData: { username: string, email: string, password: string };
 }
@@ -20,16 +20,27 @@ export const useAuthContext = () => {
 };
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(true);
-    const [useData, setUseData] = useState({
+    const isAuthenticatedStored = JSON.parse(localStorage.getItem('isAuth')!);
+    const [isAuthenticated, setIsAuthenticated] = useState(isAuthenticatedStored);
+
+    const admin = {
         username: 'admin',
         email: 'admin@admin',
-        password: 'admin',
-    });
+        password: 'admin'
+    };
+    const userDataStored = JSON.parse(localStorage.getItem('user') || JSON.stringify(admin));
+    const [userData, setUserData] = useState(userDataStored);
 
+    useEffect(() => {
+        localStorage.setItem('user', JSON.stringify(userData));
+    }, [userData]);
+
+    useEffect(() => {
+        localStorage.setItem('isAuth', JSON.stringify(isAuthenticated));
+    }, [isAuthenticated]);
 
     const handleSignUp = useCallback((username: string, email: string, password: string) => {
-        setUseData({
+        setUserData({
             username: username,
             email: email,
             password: password
@@ -37,20 +48,15 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     }, []);
 
     const handleLogIn = useCallback((email: string, password: string) => {
-        if (email == useData.email && password == useData.password) {
+        if (email == userData.email && password == userData.password) {
             setIsAuthenticated(true);
             return true;
         }
         return false;
-    }, [useData.email, useData.password]);
-
-    const handleLogOut = useCallback(() => {
-        setIsAuthenticated(false);
-    }, []);
-
+    }, [userData.email, userData.password]);
 
     return (
-        <AuthContext.Provider value={{ signup: handleSignUp, login: handleLogIn, logout: handleLogOut, isAuthenticated, useData: useData }} >
+        <AuthContext.Provider value={{ signup: handleSignUp, login: handleLogIn, isAuthenticated, useData: userData }} >
             {children}
         </AuthContext.Provider>
     );

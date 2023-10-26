@@ -14,7 +14,7 @@ import {
     ListItemText,
 } from '@mui/material';
 
-import { useAppThemeContext, useAuthContext } from '../../contexts';
+import { useAppThemeContext } from '../../contexts';
 
 const listItens = [
     {
@@ -48,7 +48,12 @@ const MenuLateralListItens: React.FC<IMenuLateralListItensProps> = ({ label, to,
 
 export const MenuLateralList = () => {
     const { toggleTheme, themeName } = useAppThemeContext();
-    const { logout } = useAuthContext();
+
+    const onLogOut = () => {
+        localStorage.setItem('isAuth', 'false');
+        toggleTheme;
+        window.location.reload();
+    };
 
     return (
         <Box
@@ -84,7 +89,7 @@ export const MenuLateralList = () => {
                         </ListItemButton>
                     </ListItem>
                     <ListItem key="log-out" disablePadding>
-                        <ListItemButton onClick={logout}>
+                        <ListItemButton onClick={onLogOut}>
                             <ListItemIcon>
                                 <Icon>logout</Icon>
                             </ListItemIcon>

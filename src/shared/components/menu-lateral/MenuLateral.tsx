@@ -31,7 +31,7 @@ export const MenuLateral: React.FC<PropsWithChildren> = ({ children }) => {
             <Box display='flex'>
                 <Drawer key='menu-lateral'
                     variant={smDown ? 'temporary' : 'permanent'}
-                    open={isDrawerOpen}
+                    open={!!isDrawerOpen}
                     onClose={toggleDrawer}
                     sx={{
                         width: theme.spacing(30),

@@ -12,8 +12,9 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import { useAuthContext } from '../../shared/contexts';
 import { useState } from 'react';
+
+import { useAuthContext } from '../../shared/contexts';
 
 const LoginSchema = yup.object({
     email: yup.string().required('Digite seu e-mail.'),
@@ -42,7 +43,9 @@ export const Login = () => {
 
 
     const onSubmit = (dados: ILoginDadosForm) => {
-        login(dados.email, dados.password) ? setMatchAuth(true) : setMatchAuth(false);
+        login(dados.email, dados.password) ?
+            window.location.reload()
+            : setMatchAuth(false);
     };
 
     return (

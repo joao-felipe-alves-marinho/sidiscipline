@@ -3,6 +3,7 @@ import {
     createContext,
     useCallback,
     useContext,
+    useEffect,
     useState
 } from 'react';
 
@@ -18,7 +19,14 @@ export const useDrawerContext = () => {
 };
 
 export const DrawerProvider: React.FC<PropsWithChildren> = ({ children }) => {
-    const [isDrawerOpen, setDrawerOpen] = useState(false);
+    const isDrawerOpenStored = JSON.parse(localStorage.getItem('isDrawerOpen')!);
+
+    const [isDrawerOpen, setDrawerOpen] = useState<boolean>(isDrawerOpenStored);
+
+    useEffect(() => {
+        localStorage.getItem('isDrawerOpen') == 'null' && setDrawerOpen(false);
+        localStorage.setItem('isDrawerOpen', JSON.stringify(isDrawerOpen));
+    }, [isDrawerOpen]);
 
     const toggleDrawer = useCallback(() => {
         setDrawerOpen(oldDrawerOpen => !oldDrawerOpen);

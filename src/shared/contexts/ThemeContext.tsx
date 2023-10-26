@@ -4,7 +4,8 @@ import {
     useState,
     useCallback,
     useMemo,
-    PropsWithChildren
+    PropsWithChildren,
+    useEffect
 } from 'react';
 import { ThemeProvider } from '@emotion/react';
 import { Box } from '@mui/material';
@@ -26,7 +27,13 @@ export const useAppThemeContext = () => {
 };
 
 export const AppThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
-    const [themeName, setThemeName] = useState<'light' | 'dark'>('light');
+    const themeModeStored = JSON.parse(localStorage.getItem('themeMode')!);
+    const [themeName, setThemeName] = useState<'light' | 'dark'>(themeModeStored);
+
+    useEffect(() => {
+        localStorage.getItem('themeMode') == 'null' && setThemeName('light');
+        localStorage.setItem('themeMode', JSON.stringify(themeName));
+    }, [themeName]);
 
     const toggleTheme = useCallback(() => {
         setThemeName((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
