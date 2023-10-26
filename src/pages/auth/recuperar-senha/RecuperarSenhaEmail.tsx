@@ -15,7 +15,7 @@ import * as yup from 'yup';
 
 const EmailSchema = yup.object({
     email: yup.string().required('Digite seu e-mail.')
-        .matches(JSON.parse(localStorage.getItem('user')!).email, 'E-mail não cadastrado.'),
+        .matches(JSON.parse(localStorage.getItem('user') || '{}').email, 'E-mail não cadastrado.'),
 });
 
 
