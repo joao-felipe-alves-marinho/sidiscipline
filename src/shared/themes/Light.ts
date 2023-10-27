@@ -94,6 +94,9 @@ export const LightTheme = createTheme({
         },
 
         MuiTextField: {
+            defaultProps: {
+                spellCheck: false,
+            },
             styleOverrides: {
                 root: {
                     '& label': {

@@ -99,6 +99,9 @@ export const DarkTheme = createTheme({
         },
 
         MuiTextField: {
+            defaultProps: {
+                spellCheck: false,
+            },
             styleOverrides: {
                 root: {
                     '& label': {

@@ -1,17 +1,14 @@
-import {
-    Grid,
-    Typography
-} from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 
 import { LayoutBase } from '../../shared/layouts';
 
-export const Home = () => {
+export const Lista = () => {
 
     return (
         <LayoutBase>
             <Grid>
                 <Grid display='flex' justifyContent='center'>
-                    <Typography fontWeight='bold' variant='h1'>WIP</Typography>
+                    <Typography fontWeight='bold' variant='h2'>WIP</Typography>
                 </Grid>
             </Grid>
         </LayoutBase>

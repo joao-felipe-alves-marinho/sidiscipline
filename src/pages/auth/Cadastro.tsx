@@ -79,7 +79,7 @@ export const Cadastro = () => {
                     <TextField
                         label='Nome'
                         type='text'
-                        placeholder='Gustavo Silva'
+                        placeholder='Gustavo Morais'
                         {...register('username')}
                         error={!!errors.username}
                         helperText={errors.username?.message}
@@ -87,7 +87,7 @@ export const Cadastro = () => {
                     <TextField
                         label='E-mail'
                         type='email'
-                        placeholder='gustavo.silva@gmail.com'
+                        placeholder='gustavo.morais@gmail.com'
                         {...register('email')}
                         error={!!errors.email}
                         helperText={errors.email?.message}

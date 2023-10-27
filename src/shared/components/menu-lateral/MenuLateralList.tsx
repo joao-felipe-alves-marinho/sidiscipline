@@ -22,6 +22,16 @@ const listItens = [
         icon: 'home',
         to: '/home',
     },
+    {
+        label: 'Lista de Datas',
+        icon: 'list',
+        to: '/lista-datas',
+    },
+    {
+        label: 'Configurações',
+        icon: 'settings',
+        to: '/configuracoes',
+    },
 ];
 
 interface IMenuLateralListItensProps {

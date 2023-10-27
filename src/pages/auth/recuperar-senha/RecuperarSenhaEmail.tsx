@@ -63,7 +63,7 @@ export const RecuperarSenhaEmail = (props: {
                     <TextField
                         fullWidth
                         label='E-mail'
-                        placeholder='gustavo.silva@gmail.com'
+                        placeholder='gustavo.morais@gmail.com'
                         type='email'
                         {...register('email')}
                         error={!!errors.email}
