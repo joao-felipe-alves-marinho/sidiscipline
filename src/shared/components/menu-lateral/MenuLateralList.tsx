@@ -20,14 +20,13 @@ const listItens = [
     to: "/home",
   },
   {
-    label: "Calendário de pontos",
-    icon: "calendário",
-    to: "/calendário",
+    label: "Lista de Datas",
+    icon: "list",
+    to: "/lista-datas",
   },
-
   {
     label: "Configurações",
-    icon: "settingsIcon",
+    icon: "settings",
     to: "/configuracoes",
   },
 ];
