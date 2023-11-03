@@ -1,19 +1,8 @@
-import {
-    createContext,
-    useContext,
-    useState,
-    useCallback,
-    useMemo,
-    PropsWithChildren,
-    useEffect
-} from 'react';
+import { createContext, useContext, useState, useCallback, useMemo, PropsWithChildren, useEffect } from 'react';
 import { ThemeProvider } from '@emotion/react';
 import { Box } from '@mui/material';
 
-import {
-    DarkTheme,
-    LightTheme
-} from './../themes';
+import { DarkTheme, LightTheme } from './../themes';
 
 interface IThemeContextData {
     themeName: 'light' | 'dark';
@@ -48,8 +37,8 @@ export const AppThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
         <ThemeContext.Provider value={{ themeName, toggleTheme }}>
             <ThemeProvider theme={theme}>
                 <Box
-                    width="100vw"
-                    height="100vh"
+                    width='100vw'
+                    height='100vh'
                     bgcolor={theme.palette.background.default}
                 >
                     {children}

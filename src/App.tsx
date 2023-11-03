@@ -1,15 +1,8 @@
 import { BrowserRouter } from 'react-router-dom';
 
-import {
-    AppThemeProvider,
-    AuthProvider,
-    DrawerProvider,
-} from './shared/contexts';
+import { AppThemeProvider, AuthProvider, DrawerProvider, } from './shared/contexts';
 import { MenuLateral } from './shared/components';
-import {
-    Routes,
-    RoutesAuth
-} from './routes';
+import { Routes, RoutesAuth } from './routes';
 
 export const App = () => {
 

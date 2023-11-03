@@ -1,7 +1,4 @@
-import {
-    Box,
-    Typography,
-} from '@mui/material';
+import { Box, Typography, } from '@mui/material';
 import { RecuperarSenhaEmail } from './RecuperarSenhaEmail';
 import { useState } from 'react';
 import { RecuperarSenhaMudar } from './RecuperarSenhaMudar';

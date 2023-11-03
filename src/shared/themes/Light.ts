@@ -1,9 +1,4 @@
-import {
-    common,
-    deepPurple,
-    green,
-    grey
-} from '@mui/material/colors';
+import { common, deepPurple, green, grey } from '@mui/material/colors';
 import { createTheme } from '@mui/material';
 
 const contrastTextField = '#000000ae';

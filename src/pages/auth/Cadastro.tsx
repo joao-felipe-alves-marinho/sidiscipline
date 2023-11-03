@@ -1,15 +1,4 @@
-import {
-    Box,
-    Button,
-    Checkbox,
-    FormControl,
-    FormControlLabel,
-    FormHelperText,
-    Link, Stack,
-    TextField,
-    Typography,
-    useTheme
-} from '@mui/material';
+import { Box, Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Link, Stack, TextField, Typography, useTheme } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
