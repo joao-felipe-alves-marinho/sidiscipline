@@ -1,15 +1,6 @@
 import { PropsWithChildren } from 'react';
 
-import {
-    AppBar,
-    Box,
-    Icon,
-    IconButton,
-    Toolbar,
-    Typography,
-    useMediaQuery,
-    useTheme
-} from '@mui/material';
+import { AppBar, Box, Icon, IconButton, Toolbar, Typography, useMediaQuery, useTheme } from '@mui/material';
 
 import { useDrawerContext } from '../contexts';
 

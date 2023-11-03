@@ -1,13 +1,4 @@
-import {
-    Card,
-    CardContent,
-    Box,
-    Typography,
-    TextField,
-    CardActions,
-    Button,
-    Link, useTheme
-} from '@mui/material';
+import { Card, CardContent, Box, Typography, TextField, CardActions, Button, Link, useTheme } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -29,7 +20,7 @@ export const RecuperarSenhaMudar = () => {
         resolver: yupResolver(EmailSchema)
     });
 
-    const onSubmit = (dados: {password: string}) => {
+    const onSubmit = (dados: { password: string }) => {
         const user = JSON.parse(localStorage.getItem('user')!);
         user.password = dados.password;
         localStorage.setItem('user', JSON.stringify(user));

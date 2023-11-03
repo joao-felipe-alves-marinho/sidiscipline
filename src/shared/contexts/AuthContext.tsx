@@ -1,10 +1,4 @@
-import {
-    PropsWithChildren,
-    createContext, useCallback,
-    useContext,
-    useEffect,
-    useState
-} from 'react';
+import { PropsWithChildren, createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 interface IAuthContextData {
     signup: (username: string, email: string, password: string) => void;
