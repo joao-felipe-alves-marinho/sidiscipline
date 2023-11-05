@@ -1,8 +1,9 @@
 import { PropsWithChildren, createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { AuthService } from '../services/api/auth/AuthService';
 
 interface IAuthContextData {
     signup: (username: string, email: string, password: string) => void;
-    login: (email: string, password: string) => boolean;
+    login: (email: string, password: string) => Promise<boolean | void>;
     isAuthenticated: boolean;
     useData: { username: string, email: string, password: string };
 }
@@ -41,13 +42,16 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
         });
     }, []);
 
-    const handleLogIn = useCallback((email: string, password: string) => {
-        if (email == userData.email && password == userData.password) {
+    const handleLogIn = useCallback(async (email: string, password: string) => {
+        const result = await AuthService.login(email, password);
+        if (result instanceof Error) {
+            return false;
+        } else {
+            console.log(result);
             setIsAuthenticated(true);
             return true;
         }
-        return false;
-    }, [userData.email, userData.password]);
+    }, []);
 
     return (
         <AuthContext.Provider value={{ signup: handleSignUp, login: handleLogIn, isAuthenticated, useData: userData }} >

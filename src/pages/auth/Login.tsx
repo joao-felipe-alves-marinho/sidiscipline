@@ -33,9 +33,13 @@ export const Login = () => {
 
 
     const onSubmit = (dados: ILoginDadosForm) => {
-        login(dados.email, dados.password) ?
-            window.location.reload()
-            : setMatchAuth(false);
+        login(dados.email, dados.password).then((result) => {
+            if (result) {
+                window.location.reload();
+            } else {
+                setMatchAuth(false);
+            }
+        });
     };
 
     return (
