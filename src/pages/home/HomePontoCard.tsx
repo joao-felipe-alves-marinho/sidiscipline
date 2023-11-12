@@ -10,7 +10,7 @@ export const HomePontoCard = (props: IHomePontoCardProps) => {
 
     return (
         <Card sx={{
-            borderRadius: theme.spacing(5),
+            borderRadius: theme.spacing(4),
             p: theme.spacing(2),
         }}>
             <CardContent component={Box}
