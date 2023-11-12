@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Grid, Typography } from '@mui/material';
+import { Container, Grid, Typography } from '@mui/material';
 
 import { LayoutBase } from '../../shared/layouts';
 import { HomePontoCard } from './HomePontoCard';
@@ -11,13 +11,13 @@ export const Home = () => {
             setDate(new Date());
         }, 10000);
         return () => clearInterval(interval);
-    },[]);
+    }, []);
 
     return (
         <LayoutBase>
-            <Box width='100%' display='flex'>
-                <Grid container mx={2} my={1}>
-                    <Grid item mx='auto' mb={2}>
+            <Container>
+                <Grid container>
+                    <Grid item mx='auto' mb={1}>
                         <Typography variant='h2' fontWeight='600' textTransform='capitalize'>
                             {date.toLocaleDateString(undefined, {
                                 weekday: 'long',
@@ -41,7 +41,7 @@ export const Home = () => {
                         </Grid>
                     </Grid>
                 </Grid>
-            </Box>
+            </Container>
         </LayoutBase>
     );
 };
