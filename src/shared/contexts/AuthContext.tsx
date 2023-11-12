@@ -4,8 +4,6 @@ import { AuthService } from '../services/api/auth/AuthService';
 interface IAuthContextData {
     signup: (username: string, email: string, password: string) => void;
     login: (email: string, password: string) => Promise<boolean | void>;
-    isAuthenticated: boolean;
-    useData: { username: string, email: string, password: string };
 }
 
 const AuthContext = createContext({} as IAuthContextData);
@@ -18,28 +16,13 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     const isAuthenticatedStored = JSON.parse(localStorage.getItem('isAuth')!);
     const [isAuthenticated, setIsAuthenticated] = useState(isAuthenticatedStored);
 
-    const admin = {
-        username: 'admin',
-        email: 'admin@admin',
-        password: 'admin'
-    };
-    const userDataStored = JSON.parse(localStorage.getItem('user') || JSON.stringify(admin));
-    const [userData, setUserData] = useState(userDataStored);
-
-    useEffect(() => {
-        localStorage.setItem('user', JSON.stringify(userData));
-    }, [userData]);
-
     useEffect(() => {
         localStorage.setItem('isAuth', JSON.stringify(isAuthenticated));
     }, [isAuthenticated]);
 
-    const handleSignUp = useCallback((username: string, email: string, password: string) => {
-        setUserData({
-            username: username,
-            email: email,
-            password: password
-        });
+    const handleSignUp = useCallback(async (username: string, email: string, password: string) => {
+        const result = await AuthService.singup(username, email, password);
+        console.log(result);
     }, []);
 
     const handleLogIn = useCallback(async (email: string, password: string) => {
@@ -48,13 +31,14 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
             return false;
         } else {
             console.log(result);
+            localStorage.setItem('user', JSON.stringify(result.user));
             setIsAuthenticated(true);
             return true;
         }
     }, []);
 
     return (
-        <AuthContext.Provider value={{ signup: handleSignUp, login: handleLogIn, isAuthenticated, useData: userData }} >
+        <AuthContext.Provider value={{ signup: handleSignUp, login: handleLogIn}} >
             {children}
         </AuthContext.Provider>
     );
