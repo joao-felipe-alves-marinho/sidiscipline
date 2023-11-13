@@ -12,12 +12,13 @@ const EmailSchema = yup.object({
 export const RecuperarSenhaMudar = () => {
     const theme = useTheme();
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors, isDirty, isValid } } = useForm({
         defaultValues: {
             password: '',
             passwordConfirmation: ''
         },
-        resolver: yupResolver(EmailSchema)
+        resolver: yupResolver(EmailSchema),
+        mode: 'onChange'
     });
 
     const onSubmit = (dados: { password: string }) => {
@@ -87,6 +88,7 @@ export const RecuperarSenhaMudar = () => {
                         sx={{
                             fontSize: theme.spacing(2)
                         }}
+                        disabled={!isDirty || !isValid}
                     >
                         Confirmar
                     </Button>

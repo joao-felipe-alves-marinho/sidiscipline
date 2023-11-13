@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useAuthContext } from '../../shared/contexts';
 
 const LoginSchema = yup.object({
-    email: yup.string().required('Digite seu e-mail.'),
+    email: yup.string().lowercase().required('Digite seu e-mail.'),
     password: yup.string().required('Digite sua senha.')
 });
 
@@ -23,12 +23,13 @@ export const Login = () => {
 
     const [matchAuth, setMatchAuth] = useState<boolean>();
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors, isDirty, isValid } } = useForm({
         defaultValues: {
             email: '',
             password: '',
         },
-        resolver: yupResolver(LoginSchema)
+        resolver: yupResolver(LoginSchema),
+        mode: 'onChange'
     });
 
 
@@ -127,6 +128,7 @@ export const Login = () => {
                                 sx={{
                                     fontSize: theme.spacing(2)
                                 }}
+                                disabled={!isDirty || !isValid}
                             >
                                 Entrar
                             </Button>

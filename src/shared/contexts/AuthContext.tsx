@@ -21,7 +21,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     }, [isAuthenticated]);
 
     const handleSignUp = useCallback(async (username: string, email: string, password: string) => {
-        const result = await AuthService.singup(username, email, password);
+        const result = await AuthService.singUp(username, email, password);
         console.log(result);
     }, []);
 

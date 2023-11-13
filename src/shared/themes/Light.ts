@@ -19,6 +19,9 @@ export const LightTheme = createTheme({
         error: {
             main: contrastRed,
         },
+        action: {
+            disabled: contrastListItemText
+        },
         background: {
             default: grey['300'],
             paper: common['white'],
@@ -47,7 +50,7 @@ export const LightTheme = createTheme({
         MuiButton: {
             defaultProps: {
                 variant: 'contained'
-            }
+            },
         },
 
         MuiDivider: {
