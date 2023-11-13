@@ -1,25 +1,15 @@
-import { useEffect, useState } from 'react';
 import { Card, CardContent, Box, Typography, TextField, CardActions, Button, Link, useTheme } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
+import { useAuthContext } from '../../../shared/contexts';
 
-import { AuthService } from '../../../shared/services/api/auth/AuthService';
 
 export const RecuperarSenhaEmail = (props: {
-    confirmEmail: React.Dispatch<React.SetStateAction<boolean>>
+    confirmEmail: React.Dispatch<React.SetStateAction<string>>
 }) => {
     const theme = useTheme();
-
-    const [emails, setEmails] = useState<string[]>([]);
-    useEffect(() => {
-        const emailsList = AuthService.getEmails();
-        emailsList.then(result => {
-            if (!(result instanceof Error)) {
-                setEmails(result.emails);
-            }
-        });
-    }, []);
+    const { emails } = useAuthContext();
 
     const EmailSchema = yup.object({
         email: yup.string().lowercase().required('Esse campo é obrigatorio.').email('E-mail invalido.')
@@ -34,8 +24,8 @@ export const RecuperarSenhaEmail = (props: {
         mode: 'onChange'
     });
 
-    const onSubmit = () => {
-        props.confirmEmail(true);
+    const onSubmit = (dados: { email: string }) => {
+        props.confirmEmail(dados.email);
     };
 
     return (

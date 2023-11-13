@@ -53,15 +53,26 @@ const getEmails = async (): Promise<IAuthGetEmails | Error> => {
         if (data) {
             return data;
         }
-        return new Error('Erro result get emails');
+        return new Error('Erro get Emails');
     } catch (error) {
         console.log(error);
         return new Error((error as { message: string }).message || 'Erro get Emails');
     }
 };
 
+const changePassword = async (email: string, password: string): Promise<IAuthLogin | Error> => {
+    try {
+        const { data } = await Api.put('/change_password', { email: email, password: password });
+        if (data) {
+            return data;
+        }
+        return new Error('Erro mudar senha');
+    } catch (error) {
+        console.log(error);
+        return new Error((error as { message: string }).message || 'Erro mudar senha');
+    }
+};
+
 export const AuthService = {
-    login,
-    singUp,
-    getEmails
+    login, singUp, getEmails, changePassword
 };

@@ -1,11 +1,9 @@
-import { useEffect, useState } from 'react';
 import { Box, Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Link, Stack, TextField, Typography, useTheme } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
-import { AuthService } from '../../shared/services/api/auth/AuthService';
 import { useAuthContext } from '../../shared/contexts';
 
 interface ICadastroDadosForm {
@@ -18,17 +16,8 @@ export const Cadastro = () => {
     const theme = useTheme();
     const navigate = useNavigate();
 
-    const { signup } = useAuthContext();
+    const { signup, emails } = useAuthContext();
 
-    const [emails, setEmails] = useState<string[]>([]);
-    useEffect(() => {
-        const emailsList = AuthService.getEmails();
-        emailsList.then(result => {
-            if (!(result instanceof Error)) {
-                setEmails(result.emails);
-            }
-        });
-    }, []);
 
     const CadastroSchema = yup.object({
         username: yup.string().required('Esse campo é obrigatorio.'),
