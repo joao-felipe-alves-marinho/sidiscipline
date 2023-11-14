@@ -2,28 +2,30 @@ import { Card, CardContent, Box, Typography, TextField, CardActions, Button, Lin
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-
-
-const EmailSchema = yup.object({
-    email: yup.string().required('Digite seu e-mail.')
-        .matches(JSON.parse(localStorage.getItem('user') || '{}').email, 'E-mail não cadastrado.'),
-});
+import { useAuthContext } from '../../../shared/contexts';
 
 
 export const RecuperarSenhaEmail = (props: {
-    confirmEmail: React.Dispatch<React.SetStateAction<boolean>>
+    confirmEmail: React.Dispatch<React.SetStateAction<string>>
 }) => {
     const theme = useTheme();
+    const { emails } = useAuthContext();
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const EmailSchema = yup.object({
+        email: yup.string().lowercase().required('Esse campo é obrigatorio.').email('E-mail invalido.')
+            .oneOf(emails, 'E-mail não registrado.'),
+    });
+
+    const { register, handleSubmit, formState: { errors, isDirty, isValid } } = useForm({
         defaultValues: {
             email: '',
         },
-        resolver: yupResolver(EmailSchema)
+        resolver: yupResolver(EmailSchema),
+        mode: 'onChange'
     });
 
-    const onSubmit = () => {
-        props.confirmEmail(true);
+    const onSubmit = (dados: { email: string }) => {
+        props.confirmEmail(dados.email);
     };
 
     return (
@@ -78,6 +80,7 @@ export const RecuperarSenhaEmail = (props: {
                         sx={{
                             fontSize: theme.spacing(2)
                         }}
+                        disabled={!isDirty || !isValid}
                     >
                         Confirmar
                     </Button>

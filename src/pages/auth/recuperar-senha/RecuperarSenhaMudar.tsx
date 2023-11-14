@@ -1,7 +1,10 @@
 import { Card, CardContent, Box, Typography, TextField, CardActions, Button, Link, useTheme } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
+
+import { useAuthContext } from '../../../shared/contexts';
 
 const EmailSchema = yup.object({
     password: yup.string().required('Esse campo é obrigatorio.').min(5, 'A senha deve ter pelo menos 5 caracteres.'),
@@ -9,21 +12,26 @@ const EmailSchema = yup.object({
 });
 
 
-export const RecuperarSenhaMudar = () => {
+export const RecuperarSenhaMudar = (props: {
+    email: string
+}) => {
     const theme = useTheme();
+    const navigate = useNavigate();
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { changePassword } = useAuthContext();
+
+    const { register, handleSubmit, formState: { errors, isDirty, isValid } } = useForm({
         defaultValues: {
             password: '',
             passwordConfirmation: ''
         },
-        resolver: yupResolver(EmailSchema)
+        resolver: yupResolver(EmailSchema),
+        mode: 'onChange'
     });
 
     const onSubmit = (dados: { password: string }) => {
-        const user = JSON.parse(localStorage.getItem('user')!);
-        user.password = dados.password;
-        localStorage.setItem('user', JSON.stringify(user));
+        changePassword(props.email, dados.password);
+        navigate('/login');
     };
 
     return (
@@ -87,6 +95,7 @@ export const RecuperarSenhaMudar = () => {
                         sx={{
                             fontSize: theme.spacing(2)
                         }}
+                        disabled={!isDirty || !isValid}
                     >
                         Confirmar
                     </Button>

@@ -1,10 +1,11 @@
 import { PropsWithChildren, createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { AuthService } from '../services/api/auth/AuthService';
 
 interface IAuthContextData {
     signup: (username: string, email: string, password: string) => void;
-    login: (email: string, password: string) => boolean;
-    isAuthenticated: boolean;
-    useData: { username: string, email: string, password: string };
+    login: (email: string, password: string) => Promise<boolean | void>;
+    changePassword: (email: string, password: string) => void;
+    emails: string[];
 }
 
 const AuthContext = createContext({} as IAuthContextData);
@@ -17,40 +18,53 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     const isAuthenticatedStored = JSON.parse(localStorage.getItem('isAuth')!);
     const [isAuthenticated, setIsAuthenticated] = useState(isAuthenticatedStored);
 
-    const admin = {
-        username: 'admin',
-        email: 'admin@admin',
-        password: 'admin'
-    };
-    const userDataStored = JSON.parse(localStorage.getItem('user') || JSON.stringify(admin));
-    const [userData, setUserData] = useState(userDataStored);
-
-    useEffect(() => {
-        localStorage.setItem('user', JSON.stringify(userData));
-    }, [userData]);
+    const [emails, setEmails] = useState<string[]>([]);
 
     useEffect(() => {
         localStorage.setItem('isAuth', JSON.stringify(isAuthenticated));
     }, [isAuthenticated]);
 
-    const handleSignUp = useCallback((username: string, email: string, password: string) => {
-        setUserData({
-            username: username,
-            email: email,
-            password: password
-        });
+    const handleSignUp = useCallback(async (username: string, email: string, password: string) => {
+        const result = await AuthService.singUp(username, email, password);
+        console.log(result);
     }, []);
 
-    const handleLogIn = useCallback((email: string, password: string) => {
-        if (email == userData.email && password == userData.password) {
+    const handleLogIn = useCallback(async (email: string, password: string) => {
+        const result = await AuthService.login(email, password);
+        if (result instanceof Error) {
+            return false;
+        } else {
+            console.log(result);
+            localStorage.setItem('user', JSON.stringify(result.user));
             setIsAuthenticated(true);
             return true;
         }
-        return false;
-    }, [userData.email, userData.password]);
+    }, []);
+
+    useEffect(() => {
+        AuthService.getEmails().then(result => {
+            if (result instanceof Error) {
+                console.log(result);
+            } else {
+                setEmails(result.emails);
+            }
+        });
+    }, []);
+
+    const handleChangePassword = useCallback(async (email: string, password: string) => {
+        const result = await AuthService.changePassword(email, password);
+        if (result instanceof Error) {
+            console.log(result);
+        }
+    }, []);
 
     return (
-        <AuthContext.Provider value={{ signup: handleSignUp, login: handleLogIn, isAuthenticated, useData: userData }} >
+        <AuthContext.Provider value={{
+            signup: handleSignUp,
+            login: handleLogIn,
+            emails: emails,
+            changePassword: handleChangePassword,
+        }} >
             {children}
         </AuthContext.Provider>
     );

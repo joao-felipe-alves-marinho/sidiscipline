@@ -24,6 +24,9 @@ export const DarkTheme = createTheme({
         error: {
             main: contrastRed,
         },
+        action: {
+            disabled: contrastListItemText
+        },
         background: {
             paper: grey['800'],
             default: grey['900'],

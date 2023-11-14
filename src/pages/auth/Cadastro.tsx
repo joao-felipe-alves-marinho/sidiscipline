@@ -12,21 +12,23 @@ interface ICadastroDadosForm {
     password: string;
 }
 
-const CadastroSchema = yup.object({
-    username: yup.string().required('Esse campo é obrigatorio.'),
-    email: yup.string().required('Esse campo é obrigatorio.').email('E-mail invalido.'),
-    password: yup.string().required('Esse campo é obrigatorio.').min(5, 'A senha deve ter pelo menos 5 caracteres.'),
-    passwordConfirmation: yup.string().oneOf([yup.ref('password')], 'As senhas não coincidem.'),
-    termsAndServices: yup.bool().isTrue('Esse campo é obrigatorio.'),
-});
-
 export const Cadastro = () => {
     const theme = useTheme();
     const navigate = useNavigate();
 
-    const { signup } = useAuthContext();
+    const { signup, emails } = useAuthContext();
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+
+    const CadastroSchema = yup.object({
+        username: yup.string().required('Esse campo é obrigatorio.'),
+        email: yup.string().lowercase().required('Esse campo é obrigatorio.').email('E-mail invalido.')
+            .notOneOf(emails, 'E-mail já registrado.'),
+        password: yup.string().required('Esse campo é obrigatorio.').min(5, 'A senha deve ter pelo menos 5 caracteres.'),
+        passwordConfirmation: yup.string().oneOf([yup.ref('password')], 'As senhas não coincidem.'),
+        termsAndServices: yup.bool().isTrue('Esse campo é obrigatorio.'),
+    });
+
+    const { register, handleSubmit, formState: { errors, isDirty, isValid } } = useForm({
         defaultValues: {
             username: '',
             email: '',
@@ -34,7 +36,8 @@ export const Cadastro = () => {
             passwordConfirmation: '',
             termsAndServices: undefined,
         },
-        resolver: yupResolver(CadastroSchema)
+        resolver: yupResolver(CadastroSchema),
+        mode: 'onChange',
     });
 
     const onSubmit = (dados: ICadastroDadosForm) => {
@@ -108,7 +111,7 @@ export const Cadastro = () => {
                         />
                         <FormHelperText>{errors.termsAndServices?.message}</FormHelperText>
                     </FormControl>
-                    <Button type='submit' color='secondary'>Cadastrar</Button>
+                    <Button type='submit' color='secondary' disabled={!isDirty || !isValid} >Cadastrar</Button>
                 </Stack>
             </Box>
         </Box >

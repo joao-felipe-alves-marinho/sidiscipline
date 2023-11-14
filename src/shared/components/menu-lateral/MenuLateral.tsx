@@ -3,15 +3,15 @@ import { Avatar, Box, Divider, Drawer, Stack, useTheme, IconButton, Typography, 
 import { ChevronLeft } from '@mui/icons-material';
 
 import { MenuLateralList } from './MenuLateralList';
-import { useAuthContext, useDrawerContext } from '../../contexts';
+import { useDrawerContext } from '../../contexts';
 
 
 export const MenuLateral: React.FC<PropsWithChildren> = ({ children }) => {
     const theme = useTheme();
     const smDown = useMediaQuery(theme.breakpoints.down('sm'));
+    const userName = JSON.parse(localStorage.getItem('user')!).name;
 
     const { isDrawerOpen, toggleDrawer } = useDrawerContext();
-    const { useData } = useAuthContext();
 
     return (
         <>
@@ -57,9 +57,9 @@ export const MenuLateral: React.FC<PropsWithChildren> = ({ children }) => {
                                 bgcolor: 'secondary.main',
                                 color: 'black'
                             }}>
-                                D
+                                {userName.charAt(0)}
                             </Avatar>
-                            <Typography paddingY={1} variant='body1'>{useData.username}</Typography>
+                            <Typography paddingY={1} variant='body1'>{userName}</Typography>
                         </Box>
                         <Box display='flex' flex={1}>
                             <MenuLateralList />

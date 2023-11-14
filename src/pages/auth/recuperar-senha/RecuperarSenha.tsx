@@ -5,7 +5,7 @@ import { RecuperarSenhaMudar } from './RecuperarSenhaMudar';
 
 
 export const RecuperarSenha = () => {
-    const [validateEmail, setValidateEmail] = useState(false);
+    const [email, setEmail] = useState('');
 
     return (
         <Box
@@ -29,7 +29,7 @@ export const RecuperarSenha = () => {
                 justifyContent='center'
                 alignItems='center'
             >
-                {validateEmail ? <RecuperarSenhaMudar /> : <RecuperarSenhaEmail confirmEmail={setValidateEmail} />}
+                {email ? <RecuperarSenhaMudar email={email} /> : <RecuperarSenhaEmail confirmEmail={setEmail} />}
             </Box>
         </Box >
     );
