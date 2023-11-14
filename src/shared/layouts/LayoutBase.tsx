@@ -12,7 +12,7 @@ export const LayoutBase: React.FC<PropsWithChildren> = ({ children }) => {
     const smDown = useMediaQuery(theme.breakpoints.down('sm'));
 
     return (
-        <Box height='100vh' width='100%' display='flex' flexDirection='column' gap={5}>
+        <Box height='100vh' width='100%' display='flex' flexDirection='column' gap={2}>
             <AppBar position='static' color='primary' enableColorOnDark>
                 <Toolbar
                     disableGutters
