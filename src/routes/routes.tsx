@@ -9,6 +9,7 @@ export const Routes = () => {
             <Route path='/home' element={<Home />} />
             <Route path='/lista-datas' element={<Lista />} />
             <Route path='/configuracoes' element={<Configuracoes />} />
+            
             <Route path='*' element={<Navigate to='/home' />} />
         </Switch>
     );
