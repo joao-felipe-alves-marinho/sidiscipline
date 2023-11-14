@@ -78,9 +78,9 @@ export const MenuLateralList = () => {
                 </List>
             </Box>
             <Box>
-                <Divider variant="middle" />
+                <Divider variant='middle' />
                 <List>
-                    <ListItem key="theme-toggle" disablePadding>
+                    <ListItem key='theme-toggle' disablePadding>
                         <ListItemButton onClick={toggleTheme}>
                             <ListItemIcon>
                                 <Icon>{themeName === 'dark' ? 'light_mode' : 'dark_mode'}</Icon>
@@ -90,12 +90,12 @@ export const MenuLateralList = () => {
                             />
                         </ListItemButton>
                     </ListItem>
-                    <ListItem key="log-out" disablePadding>
+                    <ListItem key='log-out' disablePadding>
                         <ListItemButton onClick={onLogOut}>
                             <ListItemIcon>
                                 <Icon>logout</Icon>
                             </ListItemIcon>
-                            <ListItemText primary="Log out" />
+                            <ListItemText primary='Log out' />
                         </ListItemButton>
                     </ListItem>
                 </List>
