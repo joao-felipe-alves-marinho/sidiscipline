@@ -91,16 +91,6 @@ export const LightTheme = createTheme({
             }
         },
 
-        MuiPaper: {
-            styleOverrides: {
-                root: {
-                    '& .MuiDayCalendar-weekDayLabel': {
-                        color: contrastListItemText
-                    }
-                }
-            }
-        },
-
         MuiTextField: {
             defaultProps: {
                 spellCheck: false,

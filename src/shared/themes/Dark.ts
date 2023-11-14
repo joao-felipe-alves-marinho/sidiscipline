@@ -95,16 +95,6 @@ export const DarkTheme = createTheme({
                 fontFamily: 'Poppins, Roboto'
             }
         },
-        
-        MuiPaper: {
-            styleOverrides: {
-                root: {
-                    '& .MuiDayCalendar-weekDayLabel': {
-                        color: contrastListItemText
-                    }
-                }
-            }
-        },
 
         MuiTextField: {
             defaultProps: {
