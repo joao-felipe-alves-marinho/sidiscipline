@@ -5,7 +5,7 @@ import ptBR from 'date-fns/locale/pt-BR';
 
 import { AppThemeProvider, AuthProvider, DrawerProvider, } from './shared/contexts';
 import { MenuLateral } from './shared/components';
-import { Routes, RoutesAuth } from './routes';
+import { Routes, RoutesProtected } from './routes';
 
 export const App = () => {
 
@@ -20,11 +20,11 @@ export const App = () => {
                         {localStorage.getItem('isAuth') == 'true' ?
                             <DrawerProvider>
                                 <MenuLateral>
-                                    <Routes />
+                                    <RoutesProtected />
                                 </MenuLateral>
                             </DrawerProvider>
                             :
-                            <RoutesAuth />
+                            <Routes />
                         }
 
                     </BrowserRouter>

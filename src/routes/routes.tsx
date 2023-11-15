@@ -1,16 +1,17 @@
 import { Navigate, Route, Routes as Switch } from 'react-router-dom';
 
-import { Configuracoes, Home, Lista } from '../pages';
-
+import { Cadastro, Error404, Login, RecuperarSenha } from '../pages';
 
 export const Routes = () => {
     return (
         <Switch>
-            <Route path='/home' element={<Home />} />
-            <Route path='/lista-datas' element={<Lista />} />
-            <Route path='/configuracoes' element={<Configuracoes />} />
-            
-            <Route path='*' element={<Navigate to='/home' />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/cadastro' element={<Cadastro />} />
+            <Route path='/recuperar-senha' element={<RecuperarSenha />} />
+
+            <Route path='/not_found' element={<Error404 />} />
+            <Route path='*' element={<Navigate to='/not_found' />} />
+            <Route path='/' element={<Navigate to='/cadastro' />} />
         </Switch>
     );
 };
