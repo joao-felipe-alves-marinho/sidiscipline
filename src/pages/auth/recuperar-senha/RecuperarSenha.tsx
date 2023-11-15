@@ -1,10 +1,14 @@
-import { Box, Typography, } from '@mui/material';
+import { Box, Typography, useMediaQuery, useTheme, } from '@mui/material';
 import { RecuperarSenhaEmail } from './RecuperarSenhaEmail';
 import { useState } from 'react';
 import { RecuperarSenhaMudar } from './RecuperarSenhaMudar';
 
 
 export const RecuperarSenha = () => {
+    const theme = useTheme();
+    const xsDown = useMediaQuery(theme.breakpoints.down('xs'));
+    const smDown = useMediaQuery(theme.breakpoints.down('sm'));
+
     const [email, setEmail] = useState('');
 
     return (
@@ -15,7 +19,9 @@ export const RecuperarSenha = () => {
             display='flex'
         >
             <Typography
-                variant='h3'
+                variant={smDown ?
+                    xsDown ? 'h5' : 'h4'
+                    : 'h3'}
                 color='white'
                 fontWeight='bold'
                 m={2}
