@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Link, Stack, TextField, Typography, useTheme } from '@mui/material';
+import { Box, Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Link, Stack, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -14,6 +14,9 @@ interface ICadastroDadosForm {
 
 export const Cadastro = () => {
     const theme = useTheme();
+    const xsDown = useMediaQuery(theme.breakpoints.down('xs'));
+    const smDown = useMediaQuery(theme.breakpoints.down('sm'));
+
     const navigate = useNavigate();
 
     const { signup, emails } = useAuthContext();
@@ -47,26 +50,56 @@ export const Cadastro = () => {
 
     return (
         <Box height='100%' width='100%' display='flex'>
-            <Box
-                height='100%'
-                width={theme.spacing(50)}
-                bgcolor='primary.main'
-                display='flex'
-                flexDirection='column'
-                alignItems='center'
-                color='primary.contrastText'
-            >
-                <Typography mt={14} variant='h2' color='inherit'><b>SIDI</b>SCIPLINE</Typography>
-                <Typography mx={6} mt={10} align='center' fontSize={theme.spacing(3)}>Seja bem-vindo e controle seu tempo!</Typography>
-                <Typography mt={10} mb={2}>Faça seu login para continuar.</Typography>
-                <Button href='/login' sx={{ width: theme.spacing(35), height: theme.spacing(6), fontSize: theme.spacing(2.5) }} color='secondary'>Entrar</Button>
-                <Link mt={2} color='inherit' underline='always' href='/recuperar-senha'>Esqueci minha senha</Link>
+            {smDown ?
+                undefined :
+                <Box
+                    height='100%'
+                    width={theme.spacing(50)}
+                    bgcolor='primary.main'
+                    display='flex'
+                    flexDirection='column'
+                    justifyContent='center'
+                    alignItems='center'
+                    color='primary.contrastText'
+                >
+                    <Typography variant='h2' color='inherit'><b>SIDI</b>SCIPLINE</Typography>
+                    <Typography mx={6} mt={10} align='center' fontSize={theme.spacing(3)}>Seja bem-vindo e controle seu tempo!</Typography>
+                    <Typography mt={10} mb={2}>Faça seu login para continuar.</Typography>
+                    <Button href='/login' sx={{ width: theme.spacing(35), height: theme.spacing(6), fontSize: theme.spacing(2.5) }} color='secondary'>Entrar</Button>
+                    <Link mt={2} color='inherit' underline='always' href='/recuperar-senha'>Esqueci minha senha</Link>
 
-            </Box>
-            <Box flex={1} display='flex' justifyContent='center' alignItems='center' m={2}>
+                </Box>
+            }
+            <Box flex={1} display='flex' justifyContent='center' alignItems='center' m={smDown ? 0 : 2}>
                 <Stack spacing={2} component='form' onSubmit={handleSubmit(onSubmit)}>
-                    <Typography color='primary' variant='h3'><b>CRIE SUA CONTA</b></Typography>
-                    <Typography mt={1} mb={4}>Registre-se para não perder um minuto.</Typography>
+
+                    {smDown ?
+                        <Typography
+                            color='primary'
+                            variant={xsDown ? 'h4' : 'h2'}
+                            align='center'
+                            fontWeight='bold'
+                        >
+                            SIDISCIPLINE
+                        </Typography>
+                        : undefined
+                    }
+
+                    <Typography
+                        color='primary'
+                        variant={xsDown ? 'h5' : 'h3'}
+                        fontWeight='600'
+                        align={smDown ? 'center' : undefined}
+                    >
+                        CRIE SUA CONTA
+                    </Typography>
+                    <Typography
+                        mt={1}
+                        mb={4}
+                        align={smDown ? 'center' : undefined}
+                    >
+                        Registre-se para não perder um minuto.
+                    </Typography>
 
                     <TextField
                         label='Nome'
@@ -112,6 +145,30 @@ export const Cadastro = () => {
                         <FormHelperText>{errors.termsAndServices?.message}</FormHelperText>
                     </FormControl>
                     <Button type='submit' color='secondary' disabled={!isDirty || !isValid} >Cadastrar</Button>
+                    {smDown ?
+                        <Box display='flex' justifyContent='space-between'>
+
+                            <Link
+                                mt={2}
+                                color='primary.dark'
+                                underline='always'
+                                href='/login'
+                                variant='h6'
+                            >
+                                Entrar
+                            </Link>
+                            <Link
+                                mt={2}
+                                color='primary.dark'
+                                underline='always'
+                                href='/recuperar-senha'
+                                variant='h6'
+                            >
+                                Esqueci minha senha
+                            </Link>
+                        </Box>
+                        : undefined
+                    }
                 </Stack>
             </Box>
         </Box >
