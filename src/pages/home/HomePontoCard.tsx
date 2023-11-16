@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Button, Card, CardActions, CardContent, TextField, Typography, useTheme } from '@mui/material';
+import { Box, Button, Card, CardActions, CardContent, Icon, IconButton, TextField, Typography, useTheme } from '@mui/material';
 
 interface IHomePontoCardProps {
     variant?: boolean;
@@ -8,11 +8,26 @@ interface IHomePontoCardProps {
     setEntradaBatido?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+interface ILocation {
+    latitude: number;
+    longitude: number
+}
+
 export const HomePontoCard = (props: IHomePontoCardProps) => {
     const theme = useTheme();
     const [check, setChecked] = useState(false);
-    const [localization, setLocalization] = useState('');
+    const [location, setLocation] = useState<ILocation>();
     const [storeTime, setStoreTime] = useState('');
+
+    const getLocalization = () => {
+        navigator.geolocation.getCurrentPosition((position) => {
+            setLocation({
+                'latitude': position.coords.latitude,
+                'longitude': position.coords.longitude
+            });
+        });
+        console.log(location);
+    };
 
     return (
         <Card sx={{
@@ -28,7 +43,28 @@ export const HomePontoCard = (props: IHomePontoCardProps) => {
                 <Typography pb={3} variant='h3' fontWeight='600' textAlign='center'>
                     {props.variant ? 'Saida' : 'Entrada'}
                 </Typography>
-                <TextField fullWidth label='Localização' />
+
+                <TextField
+                    fullWidth
+                    label='Localização'
+                    value={location ? [location.latitude, location.longitude].join(', ') : ''}
+                    disabled={check}
+                    InputProps={{
+                        readOnly: true,
+                        endAdornment: (
+                            <IconButton
+                                aria-label='butão localização'
+                                color='inherit'
+                                size='large'
+                                onClick={getLocalization}
+                                sx={{ visibility: check ? 'Hidden' : '' }}
+                            >
+                                <Icon>my_location</Icon>
+                            </IconButton>
+                        ),
+                    }}
+                />
+
                 <Typography
                     variant='h4'
                     fontSize={theme.spacing(10)}
@@ -58,7 +94,7 @@ export const HomePontoCard = (props: IHomePontoCardProps) => {
                             height: theme.spacing(6),
                             fontSize: theme.spacing(2.4)
                         }}
-                        disabled={!!check || !!props.entradaBatido || !localization}
+                        disabled={!!check || !!props.entradaBatido || !location}
                         onClick={() => {
                             setStoreTime(props.time);
                             setChecked(true);
@@ -82,6 +118,6 @@ export const HomePontoCard = (props: IHomePontoCardProps) => {
                     }
                 </Box>
             </CardActions>
-        </Card>
+        </Card >
     );
 };

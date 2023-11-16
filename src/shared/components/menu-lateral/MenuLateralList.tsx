@@ -52,8 +52,7 @@ export const MenuLateralList = () => {
     const { toggleTheme, themeName } = useAppThemeContext();
 
     const onLogOut = () => {
-        localStorage.setItem('themeMode', '"light"');
-        localStorage.setItem('isAuth', 'false');
+        localStorage.clear();
         window.location.reload();
     };
 
