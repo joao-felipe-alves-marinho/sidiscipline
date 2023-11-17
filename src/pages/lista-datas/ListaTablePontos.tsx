@@ -5,13 +5,13 @@ export const ListaTablePontos = (props: {
         data: string;
         horario_entrada: string;
         location_entrada: {
-            latidude: number;
-            longidude: number;
+            latitude: number;
+            longitude: number;
         },
         horario_saida: string;
         location_saida: {
-            latidude: number;
-            longidude: number;
+            latitude: number;
+            longitude: number;
         }
     }[] | undefined;
 }) => {

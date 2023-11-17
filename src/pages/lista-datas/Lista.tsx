@@ -14,15 +14,15 @@ interface IPontoData {
         data: string;
         horario_entrada: string;
         location_entrada: {
-            latidude: number;
-            longidude: number;
+            latitude: number;
+            longitude: number;
         },
         horario_saida: string;
         location_saida: {
-            latidude: number;
-            longidude: number;
+            latitude: number;
+            longitude: number;
         }
-    }[],
+    }[];
     faltas: {
         data: string;
         situacao: string;
@@ -34,7 +34,8 @@ export const Lista = () => {
     const [pontosData, setPontosData] = useState<IPontoData>();
 
     useEffect(() => {
-        PontoService.getAllPontos(JSON.parse(localStorage.getItem('user')!).id).then(result => {
+        const user_id = JSON.parse(localStorage.getItem('user')!).id;
+        PontoService.getAllPontos(user_id).then(result => {
             if (result instanceof Error) {
                 console.log(result);
             } else {

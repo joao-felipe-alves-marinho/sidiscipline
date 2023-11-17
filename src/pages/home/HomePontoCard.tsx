@@ -1,11 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Button, Card, CardActions, CardContent, Icon, IconButton, TextField, Typography, useTheme } from '@mui/material';
+import { PontoService } from '../../shared/services/api/ponto/PontoService';
 
 interface IHomePontoCardProps {
     variant?: boolean;
     time: string;
     entradaBatido?: boolean;
     setEntradaBatido?: React.Dispatch<React.SetStateAction<boolean>>;
+    pontoData: {
+        horario: string | undefined;
+        location: {
+            latitude: number | undefined;
+            longitude: number | undefined;
+        } | undefined;
+    }
 }
 
 interface ILocation {
@@ -17,7 +25,20 @@ export const HomePontoCard = (props: IHomePontoCardProps) => {
     const theme = useTheme();
     const [check, setChecked] = useState(false);
     const [location, setLocation] = useState<ILocation>();
-    const [storeTime, setStoreTime] = useState('');
+    const [storeTime, setStoreTime] = useState(props.time);
+
+    useEffect(() => {
+        if (props.pontoData.location?.latitude && props.pontoData.location?.longitude) {
+            setLocation({
+                'latitude': props.pontoData.location.latitude,
+                'longitude': props.pontoData.location.longitude
+            });
+            if (props.pontoData.horario) {
+                setStoreTime(props.pontoData.horario);
+                setChecked(true);
+            }
+        }
+    }, [props.pontoData.horario, props.pontoData.location?.latitude, props.pontoData.location?.longitude]);
 
     const getLocalization = () => {
         navigator.geolocation.getCurrentPosition((position) => {
@@ -26,7 +47,30 @@ export const HomePontoCard = (props: IHomePontoCardProps) => {
                 'longitude': position.coords.longitude
             });
         });
-        console.log(location);
+    };
+
+    const handleOnClick = () => {
+        setStoreTime(props.time);
+        setChecked(true);
+        props.setEntradaBatido != undefined ? props.setEntradaBatido(false) : undefined;
+
+        const user_id = JSON.parse(localStorage.getItem('user')!).id;
+        const data = new Date().toLocaleDateString(undefined, {
+            dateStyle: 'short'
+        });
+        if (props.variant == undefined) {
+            PontoService.saveEntrada(user_id, data, storeTime, location).then(result => {
+                if (result instanceof Error) {
+                    console.log(result);
+                }
+            });
+        } else {
+            PontoService.saveSaida(user_id, data, storeTime, location).then(result => {
+                if (result instanceof Error) {
+                    console.log(result);
+                }
+            });
+        }
     };
 
     return (
@@ -94,12 +138,8 @@ export const HomePontoCard = (props: IHomePontoCardProps) => {
                             height: theme.spacing(6),
                             fontSize: theme.spacing(2.4)
                         }}
-                        disabled={!!check || !!props.entradaBatido || !location}
-                        onClick={() => {
-                            setStoreTime(props.time);
-                            setChecked(true);
-                            props.setEntradaBatido != undefined ? props.setEntradaBatido(false) : undefined;
-                        }}
+                        disabled={!!check || props.entradaBatido || !location}
+                        onClick={handleOnClick}
                     >
                         {!check ? 'BATER PONTO' : 'BATIDO'}
                     </Button>
