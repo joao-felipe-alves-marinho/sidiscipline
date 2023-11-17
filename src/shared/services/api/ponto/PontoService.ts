@@ -105,6 +105,24 @@ const saveSaida = async (id: number, date: string, saida: string,
     }
 };
 
+const ajustrarPonto = async (id: number, date: string, horario: string, justificativa: string, ent: boolean | undefined,
+    location: { latitude: number, longitude: number } | undefined): Promise<IPontoSave | Error> => {
+    try {
+        let url = '';
+        ent ?
+            url = `/pontos/${id}/?dt=${date}&ent=${ent}` :
+            url = `/pontos/${id}/?dt=${date}`;
+        const { data } = await Api.put(url, { horario: horario, justificativa: justificativa, location: location });
+        if (data) {
+            return data;
+        }
+        return new Error('Erro saveSaida');
+    } catch (error) {
+        console.log(error);
+        return new Error((error as { message: string }).message || 'Erro saveSaida');
+    }
+};
+
 export const PontoService = {
-    getAllPontos, getPontoData, saveEntrada, saveSaida
+    getAllPontos, getPontoData, saveEntrada, saveSaida, ajustrarPonto
 };

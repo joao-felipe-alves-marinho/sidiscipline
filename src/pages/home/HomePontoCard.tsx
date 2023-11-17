@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Box, Button, Card, CardActions, CardContent, Icon, IconButton, TextField, Typography, useTheme } from '@mui/material';
+import { Box, Button, Card, CardActions, CardContent, Dialog, DialogActions, DialogContent, DialogTitle, Icon, IconButton, Stack, TextField, Typography, useTheme } from '@mui/material';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
+
 import { PontoService } from '../../shared/services/api/ponto/PontoService';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 interface IHomePontoCardProps {
     variant?: boolean;
@@ -21,11 +25,32 @@ interface ILocation {
     longitude: number
 }
 
+const AjustreSchema = yup.object({
+    horario: yup.string().required('Informe o novo horário.')
+        .matches((/^(?:[01]\d|2[0-3]):[0-5]\d$/), 'Informe um horário valido'),
+    justificativa: yup.string().required('Informe a justificativa.')
+});
+
 export const HomePontoCard = (props: IHomePontoCardProps) => {
     const theme = useTheme();
     const [check, setChecked] = useState(false);
     const [location, setLocation] = useState<ILocation>();
     const [storeTime, setStoreTime] = useState(props.time);
+    const [open, setOpen] = useState(false);
+
+    const user_id = JSON.parse(localStorage.getItem('user')!).id;
+    const data = new Date().toLocaleDateString(undefined, {
+        dateStyle: 'short'
+    });
+
+    const { register, handleSubmit, formState: { errors, isDirty, isValid } } = useForm({
+        defaultValues: {
+            horario: '',
+            justificativa: '',
+        },
+        resolver: yupResolver(AjustreSchema),
+        mode: 'onChange'
+    });
 
     useEffect(() => {
         if (props.pontoData.location?.latitude && props.pontoData.location?.longitude) {
@@ -39,6 +64,10 @@ export const HomePontoCard = (props: IHomePontoCardProps) => {
             }
         }
     }, [props.pontoData.horario, props.pontoData.location?.latitude, props.pontoData.location?.longitude]);
+
+    const toggleOpen = () => {
+        setOpen(oldOpen => !oldOpen);
+    };
 
     const getLocalization = () => {
         navigator.geolocation.getCurrentPosition((position) => {
@@ -54,10 +83,6 @@ export const HomePontoCard = (props: IHomePontoCardProps) => {
         setChecked(true);
         props.setEntradaBatido != undefined ? props.setEntradaBatido(false) : undefined;
 
-        const user_id = JSON.parse(localStorage.getItem('user')!).id;
-        const data = new Date().toLocaleDateString(undefined, {
-            dateStyle: 'short'
-        });
         if (props.variant == undefined) {
             PontoService.saveEntrada(user_id, data, storeTime, location).then(result => {
                 if (result instanceof Error) {
@@ -71,6 +96,16 @@ export const HomePontoCard = (props: IHomePontoCardProps) => {
                 }
             });
         }
+    };
+
+    const onSubmit = (dados: { horario: string, justificativa: string }) => {
+        const ent = !props.variant;
+        PontoService.ajustrarPonto(user_id, data, dados.horario, dados.justificativa, ent, location).then(result => {
+            if (result instanceof Error) {
+                console.log(result);
+            }
+        });
+        toggleOpen();
     };
 
     return (
@@ -152,10 +187,64 @@ export const HomePontoCard = (props: IHomePontoCardProps) => {
                                 height: theme.spacing(6),
                                 fontSize: theme.spacing(2.4)
                             }}
+                            onClick={toggleOpen}
                         >
                             Ajustrar Ponto
                         </Button>
                     }
+                    <Dialog open={open} onClose={toggleOpen} fullWidth component='form'
+                        onSubmit={handleSubmit(onSubmit)}>
+                        <DialogTitle variant='h5' fontWeight='500' align='center'>
+                            Ajustrar Ponto {props.variant ? 'Saida' : 'Entrada'}
+                        </DialogTitle>
+                        <DialogContent>
+                            <Stack m={2} gap={2}>
+
+                                <TextField
+                                    fullWidth
+                                    label='Nova Localização'
+                                    value={location ? [location.latitude, location.longitude].join(', ') : ''}
+                                    InputProps={{
+                                        readOnly: true,
+                                        endAdornment: (
+                                            <IconButton
+                                                aria-label='butão localização'
+                                                color='inherit'
+                                                size='large'
+                                                onClick={getLocalization}
+                                            >
+                                                <Icon>my_location</Icon>
+                                            </IconButton>
+                                        ),
+                                    }}
+                                />
+                                <TextField
+                                    label='Novo Horário'
+                                    placeholder='hh:mm'
+                                    {...register('horario')}
+                                    error={!!errors.horario}
+                                    helperText={errors.horario?.message}
+                                />
+                                <TextField
+                                    label='Justificativa'
+                                    required
+                                    {...register('justificativa')}
+                                    error={!!errors.justificativa}
+                                    helperText={errors.justificativa?.message}
+                                />
+                            </Stack>
+                        </DialogContent>
+                        <DialogActions sx={{ justifyContent: 'space-between' }} >
+                            <Button color='error' onClick={toggleOpen}>Cancelar</Button>
+                            <Button
+                                color='secondary'
+                                type='submit'
+                                disabled={!isDirty || !isValid}
+                            >
+                                Salvar
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
                 </Box>
             </CardActions>
         </Card >
