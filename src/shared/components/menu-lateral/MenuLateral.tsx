@@ -9,6 +9,7 @@ import { useDrawerContext } from '../../contexts';
 export const MenuLateral: React.FC<PropsWithChildren> = ({ children }) => {
     const theme = useTheme();
     const smDown = useMediaQuery(theme.breakpoints.down('sm'));
+
     const userName = JSON.parse(localStorage.getItem('user')!).name;
 
     const { isDrawerOpen, toggleDrawer } = useDrawerContext();

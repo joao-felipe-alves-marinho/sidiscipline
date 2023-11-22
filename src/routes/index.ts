@@ -1,2 +1,2 @@
 export * from './routes';
-export * from './routesAuth';
+export * from './routesProtected';
