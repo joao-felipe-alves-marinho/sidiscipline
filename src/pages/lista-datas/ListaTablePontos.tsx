@@ -1,4 +1,5 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { useState } from 'react';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
 
 export const ListaTablePontos = (props: {
     pontos: {
@@ -15,6 +16,13 @@ export const ListaTablePontos = (props: {
         }
     }[] | undefined;
 }) => {
+    const [page, setPage] = useState(0);
+    const [rowsPerPage] = useState(3);
+
+    const handleChangePage = (_event: unknown, newPage: number) => {
+        setPage(newPage);
+    };
+
     const pontosData = props.pontos;
 
     return (
@@ -31,7 +39,7 @@ export const ListaTablePontos = (props: {
                 </TableHead>
 
                 <TableBody>
-                    {pontosData?.map((row) => (
+                    {pontosData?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
                         <TableRow key={row.data}>
                             <TableCell>{row.data}</TableCell>
                             <TableCell>{row.horario_entrada}</TableCell>
@@ -40,6 +48,13 @@ export const ListaTablePontos = (props: {
                     ))}
                 </TableBody>
             </Table>
+            <TablePagination
+                rowsPerPageOptions={[]}
+                count={pontosData ? pontosData.length : -1}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+            />
         </TableContainer>
     );
 };
