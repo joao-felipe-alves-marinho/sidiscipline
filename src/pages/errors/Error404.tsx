@@ -23,7 +23,7 @@ export const Error404 = () => {
                 >
                     <Typography variant='h1' fontWeight='bold' >Error 404</Typography>
                     <Typography variant='h2'>Página não encontrada</Typography>
-                    <Link variant='h3' color='inherit' href='/home' >Voltar</Link>
+                    <Link variant='h3' color='inherit' href='/' >Voltar</Link>
                 </Box>
             </Box>
         </Container>
