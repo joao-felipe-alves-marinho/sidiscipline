@@ -1,4 +1,5 @@
-import { Box, Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Link, Stack, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { useState } from 'react';
+import { Box, Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Icon, IconButton, Link, Stack, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -16,6 +17,10 @@ export const Cadastro = () => {
     const theme = useTheme();
     const xsDown = useMediaQuery(theme.breakpoints.down('xs'));
     const smDown = useMediaQuery(theme.breakpoints.down('sm'));
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const toggleShowPassword = () => setShowPassword((show) => !show);
 
     const navigate = useNavigate();
 
@@ -119,11 +124,22 @@ export const Cadastro = () => {
                     />
                     <TextField
                         label='Senha'
-                        type='password'
+                        type={showPassword ? 'text' : 'password'}
                         placeholder='********'
                         {...register('password')}
                         error={!!errors.password}
                         helperText={errors.password?.message}
+                        InputProps={{
+                            endAdornment: (
+                                <IconButton
+                                    aria-label='botão mostra senha'
+                                    size='large'
+                                    onClick={toggleShowPassword}
+                                >
+                                    <Icon>{showPassword ? 'visibility_off' : 'visibility'}</Icon>
+                                </IconButton>
+                            ),
+                        }}
                     />
                     <TextField
                         label='Confirmar Senha'

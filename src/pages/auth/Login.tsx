@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Button, Box, Card, CardActions, CardContent, Typography, useTheme, TextField, Link, useMediaQuery } from '@mui/material';
+import { Button, Box, Card, CardActions, CardContent, Typography, useTheme, TextField, Link, useMediaQuery, Icon, IconButton } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 import { useAuthContext } from '../../shared/contexts';
+import { useNavigate } from 'react-router-dom';
 
 const LoginSchema = yup.object({
     email: yup.string().lowercase().required('Digite seu e-mail.'),
@@ -20,6 +21,12 @@ export const Login = () => {
     const theme = useTheme();
     const xsDown = useMediaQuery(theme.breakpoints.down('xs'));
     const smDown = useMediaQuery(theme.breakpoints.down('sm'));
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const toggleShowPassword = () => setShowPassword((show) => !show);
+
+    const navigate = useNavigate();
 
     const { login } = useAuthContext();
 
@@ -38,6 +45,7 @@ export const Login = () => {
     const onSubmit = (dados: ILoginDadosForm) => {
         login(dados.email, dados.password).then((result) => {
             if (result) {
+                navigate('/');
                 window.location.reload();
             } else {
                 setMatchAuth(false);
@@ -108,10 +116,21 @@ export const Login = () => {
                                 fullWidth
                                 label='Senha'
                                 placeholder='********'
-                                type='password'
+                                type={showPassword ? 'text' : 'password'}
                                 {...register('password')}
                                 error={!!errors.password}
                                 helperText={errors.password?.message}
+                                InputProps={{
+                                    endAdornment: (
+                                        <IconButton
+                                            aria-label='botão mostra senha'
+                                            size='large'
+                                            onClick={toggleShowPassword}
+                                        >
+                                            <Icon>{showPassword ? 'visibility_off' : 'visibility'}</Icon>
+                                        </IconButton>
+                                    ),
+                                }}
                             />
 
                             {(matchAuth === undefined) ?

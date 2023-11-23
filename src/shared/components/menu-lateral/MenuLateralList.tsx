@@ -1,5 +1,5 @@
 import React from 'react';
-import { useMatch, useResolvedPath } from 'react-router-dom';
+import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
 import { Box, Divider, Icon, List, ListItem, ListItemButton, ListItemIcon, ListItemText, } from '@mui/material';
 
 import { useAppThemeContext } from '../../contexts';
@@ -51,8 +51,11 @@ const MenuLateralListItens: React.FC<IMenuLateralListItensProps> = ({
 export const MenuLateralList = () => {
     const { toggleTheme, themeName } = useAppThemeContext();
 
+    const navigate = useNavigate();
+
     const onLogOut = () => {
         localStorage.clear();
+        navigate('/login');
         window.location.reload();
     };
 

@@ -132,7 +132,7 @@ export const HomePontoCard = (props: IHomePontoCardProps) => {
                         readOnly: true,
                         endAdornment: (
                             <IconButton
-                                aria-label='butão localização'
+                                aria-label='botão localização'
                                 color='inherit'
                                 size='large'
                                 onClick={getLocalization}
