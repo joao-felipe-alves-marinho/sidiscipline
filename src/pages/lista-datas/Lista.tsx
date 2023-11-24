@@ -49,13 +49,13 @@ export const Lista = () => {
     return (
         <LayoutBase>
             <Container>
-                <Grid container spacing={2} justifyContent={'space-between'}>
+                <Grid container spacing={2} justifyContent={'space-between'} >
                     <Grid item>
                         <Card>
-                            <DateCalendar />
+                            <DateCalendar sx={{ maxHeight: 341.25, height: 341.25 }} />
                         </Card>
                     </Grid>
-                    <Grid item xs={8}>
+                    <Grid item xs={12} sm={8.5}>
                         <ListaTableFaltas faltas={pontosData?.faltas} />
                     </Grid>
                     <Grid item xs={12}>

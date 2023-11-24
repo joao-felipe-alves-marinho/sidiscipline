@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Button, Box, Card, CardActions, CardContent, Typography, useTheme, TextField, Link, useMediaQuery, Icon, IconButton } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 import { useAuthContext } from '../../shared/contexts';
-import { useNavigate } from 'react-router-dom';
 
 const LoginSchema = yup.object({
     email: yup.string().lowercase().required('Digite seu e-mail.'),

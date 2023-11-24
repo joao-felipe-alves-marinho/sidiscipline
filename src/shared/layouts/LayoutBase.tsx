@@ -32,7 +32,7 @@ export const LayoutBase: React.FC<PropsWithChildren> = ({ children }) => {
                     <Typography pr={3} variant={xsDown ? 'h5' : smDown ? 'h4' : 'h3'}><b>SIDI</b>SCIPLINE</Typography>
                 </Toolbar>
             </AppBar>
-            <Box flex={1} overflow='auto' mb={2}>
+            <Box flex={1} overflow='auto'>
                 {children}
             </Box>
         </Box>
