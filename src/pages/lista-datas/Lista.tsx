@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Card, Container, Grid } from '@mui/material';
+import { Card, Container, Grid, useMediaQuery, useTheme } from '@mui/material';
 import { DateCalendar } from '@mui/x-date-pickers';
 
 import { PontoService } from '../../shared/services/api/ponto/PontoService';
@@ -31,6 +31,9 @@ interface IPontoData {
 }
 
 export const Lista = () => {
+    const theme = useTheme();
+    const smDown = useMediaQuery(theme.breakpoints.down('sm'));
+
     const [pontosData, setPontosData] = useState<IPontoData>();
 
     useEffect(() => {
@@ -49,13 +52,13 @@ export const Lista = () => {
     return (
         <LayoutBase>
             <Container>
-                <Grid container spacing={2} justifyContent={'space-between'} >
+                <Grid container spacing={2} justifyContent={smDown ? 'center' : 'space-between'} >
                     <Grid item>
                         <Card>
                             <DateCalendar sx={{ maxHeight: 341.25, height: 341.25 }} />
                         </Card>
                     </Grid>
-                    <Grid item xs={12} sm={8.5}>
+                    <Grid item xs={12} sm={8.4}>
                         <ListaTableFaltas faltas={pontosData?.faltas} />
                     </Grid>
                     <Grid item xs={12}>
