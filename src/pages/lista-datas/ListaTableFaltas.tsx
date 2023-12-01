@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
+
+import { ListaTableFaltasDialog } from './ListaTableFaltasDialog';
 
 export const ListaTableFaltas = (props: {
     faltas: {
@@ -33,18 +35,21 @@ export const ListaTableFaltas = (props: {
                         <TableRow key={row.data}>
                             <TableCell>{row.data}</TableCell>
                             <TableCell>{row.situacao}</TableCell>
-                            <TableCell><Button size='small' color='secondary'>Justificar</Button></TableCell>
+                            <TableCell><ListaTableFaltasDialog /></TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
-                <TablePagination
-                    align='right'
-                    rowsPerPageOptions={[]}
-                    count={faltas ? faltas.length : -1}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                />
+                <TableFooter>
+                    <TableRow>
+                        <TablePagination
+                            rowsPerPageOptions={[]}
+                            count={faltas ? faltas.length : -1}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onPageChange={handleChangePage}
+                        />
+                    </TableRow>
+                </TableFooter>
             </Table>
         </TableContainer>
     );
