@@ -15,12 +15,12 @@ export const ListaTableFaltasDialog = () => {
 
     const { control, handleSubmit, formState: { isDirty, isValid } } = useForm({
         defaultValues: {
-            file: null
+            file: undefined
         },
         mode: 'onChange'
     });
 
-    const onSubmit = (data: unknown) => {
+    const onSubmit = (data: { file: File[] | undefined }) => {
         console.log(data);
         toggleOpen();
     };
@@ -44,11 +44,12 @@ export const ListaTableFaltasDialog = () => {
                         control={control}
                         render={({ field }) => (
                             <MuiFileInput
+                                fullWidth
                                 placeholder='Adicione o anexo de justificativa'
                                 inputProps={{
                                     accept: 'image/*, .pdf,',
                                 }}
-                                fullWidth
+                                multiple
                                 clearIconButtonProps={{
                                     children: <Icon>clear_icon</Icon>
                                 }}
