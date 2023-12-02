@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
 
 export const ListaTablePontos = (props: {
     pontos: {
@@ -47,14 +47,17 @@ export const ListaTablePontos = (props: {
                         </TableRow>
                     ))}
                 </TableBody>
-                <TablePagination
-                    align='right'
-                    rowsPerPageOptions={[]}
-                    count={pontosData ? pontosData.length : -1}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                />
+                <TableFooter>
+                    <TableRow>
+                        <TablePagination
+                            rowsPerPageOptions={[]}
+                            count={pontosData ? pontosData.length : -1}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onPageChange={handleChangePage}
+                        />
+                    </TableRow>
+                </TableFooter>
             </Table>
         </TableContainer>
     );

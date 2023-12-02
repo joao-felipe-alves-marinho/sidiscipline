@@ -26,7 +26,7 @@ interface IPontoData {
     faltas: {
         data: string;
         situacao: string;
-        justificado: string;
+        anexo: string[];
     }[];
 }
 

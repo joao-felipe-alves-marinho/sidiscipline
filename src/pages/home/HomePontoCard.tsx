@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Box, Button, Card, CardActions, CardContent, Dialog, DialogActions, DialogContent, DialogTitle, Icon, IconButton, Stack, TextField, Typography, useTheme } from '@mui/material';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 import { PontoService } from '../../shared/services/api/ponto/PontoService';
-import { yupResolver } from '@hookform/resolvers/yup';
 
 interface IHomePontoCardProps {
     variant?: boolean;
@@ -192,8 +192,13 @@ export const HomePontoCard = (props: IHomePontoCardProps) => {
                             Ajustrar Ponto
                         </Button>
                     }
-                    <Dialog open={open} onClose={toggleOpen} fullWidth component='form'
-                        onSubmit={handleSubmit(onSubmit)}>
+                    <Dialog
+                        open={open}
+                        onClose={toggleOpen}
+                        fullWidth 
+                        component='form'
+                        onSubmit={handleSubmit(onSubmit)}
+                    >
                         <DialogTitle variant='h5' fontWeight='500' align='center'>
                             Ajustrar Ponto {props.variant ? 'Saida' : 'Entrada'}
                         </DialogTitle>
@@ -208,7 +213,7 @@ export const HomePontoCard = (props: IHomePontoCardProps) => {
                                         readOnly: true,
                                         endAdornment: (
                                             <IconButton
-                                                aria-label='butão localização'
+                                                aria-label='botão localização'
                                                 color='inherit'
                                                 size='large'
                                                 onClick={getLocalization}
