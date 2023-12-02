@@ -2,10 +2,13 @@ import { useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon, useTheme } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import { MuiFileInput } from 'mui-file-input';
+import { PontoService } from '../../shared/services/api/ponto/PontoService';
 
-export const ListaTableFaltasDialog = () => {
+export const ListaTableFaltasDialog = (props: { date: string }) => {
     const theme = useTheme();
     const textContrastColor = theme.palette.getContrastText(theme.palette.background.paper);
+
+    const userId = JSON.parse(localStorage.getItem('user')!).id;
 
     const [open, setOpen] = useState(false);
 
@@ -15,14 +18,21 @@ export const ListaTableFaltasDialog = () => {
 
     const { control, handleSubmit, formState: { isDirty, isValid } } = useForm({
         defaultValues: {
-            file: undefined
+            file: null
         },
         mode: 'onChange'
     });
 
-    const onSubmit = (data: { file: File[] | undefined }) => {
-        console.log(data);
-        toggleOpen();
+    const onSubmit = (data: { file: File | null }) => {
+        if (data.file == null) return;
+        const fileForm = new FormData();
+        fileForm.append('file', data.file);
+        PontoService.uploadAnexoFalta(userId, props.date, fileForm).then(result => {
+            if (result instanceof Error) {
+                console.log(result);
+            }
+        });
+        window.location.reload();
     };
 
     return (
@@ -44,16 +54,15 @@ export const ListaTableFaltasDialog = () => {
                         control={control}
                         render={({ field }) => (
                             <MuiFileInput
+                                {...field}
                                 fullWidth
                                 placeholder='Adicione o anexo de justificativa'
                                 inputProps={{
                                     accept: 'image/*, .pdf,',
                                 }}
-                                multiple
                                 clearIconButtonProps={{
                                     children: <Icon>clear_icon</Icon>
                                 }}
-                                {...field}
                                 sx={{
                                     '& .MuiFileInput-placeholder': {
                                         color: `${textContrastColor} !important`

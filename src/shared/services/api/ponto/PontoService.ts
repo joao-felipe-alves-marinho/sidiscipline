@@ -19,7 +19,7 @@ interface IPontoGetAllPontos {
     faltas: {
         data: string;
         situacao: string;
-        justificado: string;
+        anexo: string[];
     }[];
     status_code: string;
 }
@@ -123,6 +123,20 @@ const ajustrarPonto = async (id: number, date: string, horario: string, justific
     }
 };
 
+const uploadAnexoFalta = async (id: number, date: string, file: FormData): Promise<IPontoSave | Error> => {
+    try {
+        const url = `/pontos/${id}/?dt=${date}`;
+        const { data } = await Api.post(url, file);
+        if (data) {
+            return data;
+        }
+        return new Error('Erro uploadAnexoFalta');
+    } catch (error) {
+        console.log(error);
+        return new Error((error as { message: string }).message || 'Erro uploadAnexoFalta');
+    }
+};
+
 export const PontoService = {
-    getAllPontos, getPontoData, saveEntrada, saveSaida, ajustrarPonto
+    getAllPontos, getPontoData, saveEntrada, saveSaida, ajustrarPonto, uploadAnexoFalta
 };

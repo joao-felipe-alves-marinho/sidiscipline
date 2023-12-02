@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
+import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
 
 import { ListaTableFaltasDialog } from './ListaTableFaltasDialog';
 
@@ -7,7 +7,7 @@ export const ListaTableFaltas = (props: {
     faltas: {
         data: string;
         situacao: string;
-        justificado: string;
+        anexo: string[];
     }[] | undefined;
 }) => {
     const [page, setPage] = useState(0);
@@ -35,7 +35,10 @@ export const ListaTableFaltas = (props: {
                         <TableRow key={row.data}>
                             <TableCell>{row.data}</TableCell>
                             <TableCell>{row.situacao}</TableCell>
-                            <TableCell><ListaTableFaltasDialog /></TableCell>
+                            <TableCell align='center'>
+                                {row.anexo.length > 0 ? <Button disabled size='small' color='secondary'>Justificado</Button>
+                                    : <ListaTableFaltasDialog date={row.data}/>}
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
