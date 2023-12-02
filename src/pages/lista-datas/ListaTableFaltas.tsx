@@ -1,4 +1,5 @@
-import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { useState } from 'react';
+import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
 
 export const ListaTableFaltas = (props: {
     faltas: {
@@ -7,10 +8,17 @@ export const ListaTableFaltas = (props: {
         justificado: string;
     }[] | undefined;
 }) => {
+    const [page, setPage] = useState(0);
+    const [rowsPerPage] = useState(3);
+
+    const handleChangePage = (_event: unknown, newPage: number) => {
+        setPage(newPage);
+    };
+
     const faltas = props.faltas;
     return (
         <TableContainer component={Paper}>
-            <Typography variant='h5' mt={1} ml={2} fontWeight='600'>Faltas</Typography>
+            <Typography variant='h6' mt={1} ml={2} fontWeight='600'>Faltas</Typography>
             <Table>
                 <TableHead>
                     <TableRow>
@@ -21,7 +29,7 @@ export const ListaTableFaltas = (props: {
                 </TableHead>
 
                 <TableBody>
-                    {faltas?.map((row) => (
+                    {faltas?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
                         <TableRow key={row.data}>
                             <TableCell>{row.data}</TableCell>
                             <TableCell>{row.situacao}</TableCell>
@@ -29,6 +37,14 @@ export const ListaTableFaltas = (props: {
                         </TableRow>
                     ))}
                 </TableBody>
+                <TablePagination
+                    align='right'
+                    rowsPerPageOptions={[]}
+                    count={faltas ? faltas.length : -1}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                />
             </Table>
         </TableContainer>
     );

@@ -11,7 +11,7 @@ export const RoutesProtected = () => {
             <Route path='/configuracoes' element={<Configuracoes />} />
             
             <Route path='/not_found' element={<Error404 />} />
-            <Route path='*' element={<Navigate to='/not_found' />} />
+            <Route path='/*' element={<Navigate to='/not_found' />} />
             <Route path='/' element={<Navigate to='/home' />} />
         </Switch>
     );

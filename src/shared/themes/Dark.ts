@@ -1,5 +1,6 @@
 import { common, deepPurple, green, grey } from '@mui/material/colors';
 import { createTheme } from '@mui/material';
+import { ptBR } from '@mui/material/locale';
 
 const contrastTextField = common['white'];
 const contrastListItemText = common['white'];
@@ -95,7 +96,7 @@ export const DarkTheme = createTheme({
                 fontFamily: 'Poppins, Roboto'
             }
         },
-        
+
         MuiPaper: {
             styleOverrides: {
                 root: {
@@ -136,4 +137,4 @@ export const DarkTheme = createTheme({
             }
         },
     }
-});
+}, ptBR);

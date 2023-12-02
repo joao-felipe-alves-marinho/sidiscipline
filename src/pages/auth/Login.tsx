@@ -1,8 +1,9 @@
-import { Button, Box, Card, CardActions, CardContent, Typography, useTheme, TextField, Link } from '@mui/material';
+import { useState } from 'react';
+import { Button, Box, Card, CardActions, CardContent, Typography, useTheme, TextField, Link, useMediaQuery, Icon, IconButton } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import { useState } from 'react';
 
 import { useAuthContext } from '../../shared/contexts';
 
@@ -18,6 +19,14 @@ interface ILoginDadosForm {
 
 export const Login = () => {
     const theme = useTheme();
+    const xsDown = useMediaQuery(theme.breakpoints.down('xs'));
+    const smDown = useMediaQuery(theme.breakpoints.down('sm'));
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const toggleShowPassword = () => setShowPassword((show) => !show);
+
+    const navigate = useNavigate();
 
     const { login } = useAuthContext();
 
@@ -36,6 +45,7 @@ export const Login = () => {
     const onSubmit = (dados: ILoginDadosForm) => {
         login(dados.email, dados.password).then((result) => {
             if (result) {
+                navigate('/');
                 window.location.reload();
             } else {
                 setMatchAuth(false);
@@ -51,7 +61,9 @@ export const Login = () => {
             display='flex'
         >
             <Typography
-                variant='h3'
+                variant={smDown ?
+                    xsDown ? 'h5' : 'h4'
+                    : 'h3'}
                 color='white'
                 fontWeight='bold'
                 m={2}
@@ -67,8 +79,12 @@ export const Login = () => {
             >
                 <Card component='form' onSubmit={handleSubmit(onSubmit)} sx={{
                     borderRadius: theme.spacing(5),
-                    py: theme.spacing(6),
-                    px: theme.spacing(14),
+                    py: smDown ?
+                        xsDown ? 0 : theme.spacing(1)
+                        : theme.spacing(6),
+                    px: smDown ?
+                        xsDown ? 0 : theme.spacing(1)
+                        : theme.spacing(14),
                 }}>
                     <CardContent sx={{
                         p: theme.spacing(1)
@@ -77,12 +93,12 @@ export const Login = () => {
                             display='flex'
                             flexDirection='column'
                             alignItems='center'
-                            width={theme.spacing(50)}
+                            width={smDown ? undefined : theme.spacing(50)}
                             gap={4}
                         >
 
                             <Typography
-                                variant='h2'
+                                variant={xsDown ? 'h4' : 'h2'}
                                 fontWeight='Bold'
                                 color='primary'
                             >LOGIN</Typography>
@@ -100,10 +116,21 @@ export const Login = () => {
                                 fullWidth
                                 label='Senha'
                                 placeholder='********'
-                                type='password'
+                                type={showPassword ? 'text' : 'password'}
                                 {...register('password')}
                                 error={!!errors.password}
                                 helperText={errors.password?.message}
+                                InputProps={{
+                                    endAdornment: (
+                                        <IconButton
+                                            aria-label='botão mostra senha'
+                                            size='large'
+                                            onClick={toggleShowPassword}
+                                        >
+                                            <Icon>{showPassword ? 'visibility_off' : 'visibility'}</Icon>
+                                        </IconButton>
+                                    ),
+                                }}
                             />
 
                             {(matchAuth === undefined) ?
@@ -134,8 +161,10 @@ export const Login = () => {
                             </Button>
                             <Box
                                 display='flex'
+                                flexDirection={xsDown ? 'column' : 'row'}
                                 width='100%'
                                 justifyContent='space-between'
+                                alignItems='center'
                             >
                                 <Link href='/cadastro' >Cadastre-se</Link>
                                 <Link href='/recuperar-senha' >Esqueci minha senha</Link>

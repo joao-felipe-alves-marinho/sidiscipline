@@ -1,4 +1,4 @@
-import { Card, CardContent, Box, Typography, TextField, CardActions, Button, Link, useTheme } from '@mui/material';
+import { Card, CardContent, Box, Typography, TextField, CardActions, Button, Link, useTheme, useMediaQuery } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -9,6 +9,9 @@ export const RecuperarSenhaEmail = (props: {
     confirmEmail: React.Dispatch<React.SetStateAction<string>>
 }) => {
     const theme = useTheme();
+    const xsDown = useMediaQuery(theme.breakpoints.down('xs'));
+    const smDown = useMediaQuery(theme.breakpoints.down('sm'));
+
     const { emails } = useAuthContext();
 
     const EmailSchema = yup.object({
@@ -31,8 +34,12 @@ export const RecuperarSenhaEmail = (props: {
     return (
         <Card component='form' onSubmit={handleSubmit(onSubmit)} sx={{
             borderRadius: theme.spacing(5),
-            py: theme.spacing(6),
-            px: theme.spacing(12),
+            py: smDown ?
+                xsDown ? 0 : theme.spacing(1)
+                : theme.spacing(6),
+            px: smDown ?
+                xsDown ? 0 : theme.spacing(1)
+                : theme.spacing(14),
         }}>
             <CardContent sx={{
                 p: theme.spacing(1)
@@ -41,11 +48,11 @@ export const RecuperarSenhaEmail = (props: {
                     display='flex'
                     flexDirection='column'
                     alignItems='center'
-                    width={theme.spacing(60)}
+                    width={smDown ? undefined : theme.spacing(60)}
                 >
 
                     <Typography
-                        variant='h3'
+                        variant={xsDown ? 'h5' : 'h3'}
                         fontWeight='Bold'
                         color='primary'
                         mt={1}
@@ -86,11 +93,13 @@ export const RecuperarSenhaEmail = (props: {
                     </Button>
                     <Box
                         display='flex'
+                        flexDirection={xsDown ? 'column' : 'row'}
                         width='100%'
                         justifyContent='space-between'
+                        alignItems='center'
                     >
                         <Link href='/cadastro' >Cadastre-se</Link>
-                        <Link href='/login' >Voltar a tela de login</Link>
+                        <Link href='/login' >Fazer login </Link>
                     </Box>
                 </Box>
             </CardActions>
