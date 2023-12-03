@@ -24,10 +24,10 @@ export const ListaTableFaltasDialog = (props: { date: string }) => {
     });
 
     const onSubmit = (data: { file: File | null }) => {
-        if (data.file == null) return;
+        if (!data.file) return;
         const fileForm = new FormData();
         fileForm.append('file', data.file);
-        PontoService.uploadAnexoFalta(userId, props.date, fileForm).then(result => {
+        PontoService.postUploadAnexoFalta(userId, props.date, fileForm).then(result => {
             if (result instanceof Error) {
                 console.log(result);
             }

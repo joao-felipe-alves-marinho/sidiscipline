@@ -4,7 +4,6 @@ import { ptBR } from '@mui/material/locale';
 
 const contrastTextField = common['white'];
 const contrastListItemText = common['white'];
-const contrastRed = '#930000';
 
 export const DarkTheme = createTheme({
     palette: {
@@ -21,9 +20,6 @@ export const DarkTheme = createTheme({
             dark: green['A700'],
             light: green['A200'],
             contrastText: common['black'],
-        },
-        error: {
-            main: contrastRed,
         },
         action: {
             disabled: contrastListItemText

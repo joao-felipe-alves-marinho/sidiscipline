@@ -47,6 +47,23 @@ interface IPontoSave {
     status_code: string;
 }
 
+interface IUploadAvatar {
+    message: string;
+    avatar: string;
+    status_code: string;
+}
+
+interface IUpdateUser {
+    message: string,
+    status_code: string,
+    user: {
+        id: number,
+        email: string,
+        name: string,
+        password: string,
+    };
+}
+
 const getAllPontos = async (id: number): Promise<IPontoGetAllPontos | Error> => {
     try {
         const url = `/pontos/${id}`;
@@ -75,7 +92,7 @@ const getPontoData = async (id: number, date: string): Promise<IPontoGetPontoDat
     }
 };
 
-const saveEntrada = async (id: number, date: string, entrada: string,
+const postSaveEntrada = async (id: number, date: string, entrada: string,
     location: { latitude: number, longitude: number } | undefined): Promise<IPontoSave | Error> => {
     try {
         const url = `/pontos/${id}`;
@@ -83,14 +100,14 @@ const saveEntrada = async (id: number, date: string, entrada: string,
         if (data) {
             return data;
         }
-        return new Error('Erro saveEntrada');
+        return new Error('Erro postSaveEntrada');
     } catch (error) {
         console.log(error);
-        return new Error((error as { message: string }).message || 'Erro saveEntrada');
+        return new Error((error as { message: string }).message || 'Erro postSaveEntrada');
     }
 };
 
-const saveSaida = async (id: number, date: string, saida: string,
+const putSaveSaida = async (id: number, date: string, saida: string,
     location: { latitude: number, longitude: number } | undefined): Promise<IPontoSave | Error> => {
     try {
         const url = `/pontos/${id}`;
@@ -98,14 +115,14 @@ const saveSaida = async (id: number, date: string, saida: string,
         if (data) {
             return data;
         }
-        return new Error('Erro saveSaida');
+        return new Error('Erro putSaveSaida');
     } catch (error) {
         console.log(error);
-        return new Error((error as { message: string }).message || 'Erro saveSaida');
+        return new Error((error as { message: string }).message || 'Erro putSaveSaida');
     }
 };
 
-const ajustrarPonto = async (id: number, date: string, horario: string, justificativa: string, ent: boolean | undefined,
+const putAjustrarPonto = async (id: number, date: string, horario: string, justificativa: string, ent: boolean | undefined,
     location: { latitude: number, longitude: number } | undefined): Promise<IPontoSave | Error> => {
     try {
         let url = '';
@@ -116,27 +133,62 @@ const ajustrarPonto = async (id: number, date: string, horario: string, justific
         if (data) {
             return data;
         }
-        return new Error('Erro saveSaida');
+        return new Error('Erro putSaveSaida');
     } catch (error) {
         console.log(error);
-        return new Error((error as { message: string }).message || 'Erro saveSaida');
+        return new Error((error as { message: string }).message || 'Erro putSaveSaida');
     }
 };
 
-const uploadAnexoFalta = async (id: number, date: string, file: FormData): Promise<IPontoSave | Error> => {
+const postUploadAnexoFalta = async (id: number, date: string, file: FormData): Promise<IPontoSave | Error> => {
     try {
         const url = `/pontos/${id}/?dt=${date}`;
         const { data } = await Api.post(url, file);
         if (data) {
             return data;
         }
-        return new Error('Erro uploadAnexoFalta');
+        return new Error('Erro postUploadAnexoFalta');
     } catch (error) {
         console.log(error);
-        return new Error((error as { message: string }).message || 'Erro uploadAnexoFalta');
+        return new Error((error as { message: string }).message || 'Erro postUploadAnexoFalta');
+    }
+};
+
+const postUploadAvatar = async (id: number, file: FormData): Promise<IUploadAvatar | Error> => {
+    try {
+        const url = `/${id}`;
+        const { data } = await Api.post(url, file);
+        if (data) {
+            return data;
+        }
+        return new Error('Erro postpostUploadAvatar');
+    } catch (error) {
+        console.log(error);
+        return new Error((error as { message: string }).message || 'Erro postpostUploadAvatar');
+    }
+};
+
+const putUpdateUser = async (id: number, username: string, email: string, password: string): Promise<IUpdateUser | Error> => {
+    try {
+        const url = `/${id}`;
+        const { data } = await Api.put(url, { username: username, email: email, password: password });
+        if (data) {
+            return data;
+        }
+        return new Error('Erro putUpdateUser');
+    } catch (error) {
+        console.log(error);
+        return new Error((error as { message: string }).message || 'Erro putUpdateUser');
     }
 };
 
 export const PontoService = {
-    getAllPontos, getPontoData, saveEntrada, saveSaida, ajustrarPonto, uploadAnexoFalta
+    getAllPontos,
+    getPontoData,
+    postSaveEntrada,
+    putSaveSaida,
+    putAjustrarPonto,
+    postUploadAnexoFalta,
+    postUploadAvatar,
+    putUpdateUser
 };
