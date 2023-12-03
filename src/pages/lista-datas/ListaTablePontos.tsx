@@ -28,7 +28,7 @@ export const ListaTablePontos = (props: {
 
     return (
         <TableContainer component={Paper}>
-            <Typography variant='h6' mt={1} ml={2} fontWeight='600'>Pontos</Typography>
+            <Typography variant='h4' mt={1} ml={2} fontWeight='600'>Pontos</Typography>
             <Table>
                 <TableHead>
                     <TableRow>

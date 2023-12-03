@@ -32,7 +32,7 @@ interface IPontoData {
 
 export const Lista = () => {
     const theme = useTheme();
-    const smDown = useMediaQuery(theme.breakpoints.down('sm'));
+    const lgDown = useMediaQuery(theme.breakpoints.down('lg'));
 
     const [pontosData, setPontosData] = useState<IPontoData>();
 
@@ -52,13 +52,13 @@ export const Lista = () => {
     return (
         <LayoutBase>
             <Container>
-                <Grid container spacing={2} justifyContent={smDown ? 'center' : 'space-between'} >
+                <Grid container spacing={2} justifyContent={lgDown ? 'center' : 'space-between'} >
                     <Grid item>
                         <Card>
-                            <DateCalendar sx={{ maxHeight: 341.25, height: 341.25 }} />
+                            <DateCalendar sx={{ maxHeight: 351.23, height: 351.23 }} />
                         </Card>
                     </Grid>
-                    <Grid item xs={12} sm={8.4}>
+                    <Grid item xs={12} lg={8.3}>
                         <ListaTableFaltas faltas={pontosData?.faltas} />
                     </Grid>
                     <Grid item xs={12}>

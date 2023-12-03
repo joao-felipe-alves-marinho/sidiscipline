@@ -84,13 +84,13 @@ export const HomePontoCard = (props: IHomePontoCardProps) => {
         props.setEntradaBatido != undefined ? props.setEntradaBatido(false) : undefined;
 
         if (props.variant == undefined) {
-            PontoService.saveEntrada(user_id, data, storeTime, location).then(result => {
+            PontoService.postSaveEntrada(user_id, data, storeTime, location).then(result => {
                 if (result instanceof Error) {
                     console.log(result);
                 }
             });
         } else {
-            PontoService.saveSaida(user_id, data, storeTime, location).then(result => {
+            PontoService.putSaveSaida(user_id, data, storeTime, location).then(result => {
                 if (result instanceof Error) {
                     console.log(result);
                 }
@@ -100,7 +100,7 @@ export const HomePontoCard = (props: IHomePontoCardProps) => {
 
     const onSubmit = (dados: { horario: string, justificativa: string }) => {
         const ent = !props.variant;
-        PontoService.ajustrarPonto(user_id, data, dados.horario, dados.justificativa, ent, location).then(result => {
+        PontoService.putAjustrarPonto(user_id, data, dados.horario, dados.justificativa, ent, location).then(result => {
             if (result instanceof Error) {
                 console.log(result);
             }

@@ -20,13 +20,13 @@ export const ListaTableFaltas = (props: {
     const faltas = props.faltas;
     return (
         <TableContainer component={Paper}>
-            <Typography variant='h6' mt={1} ml={2} fontWeight='600'>Faltas</Typography>
+            <Typography variant='h4' mt={1} ml={2} fontWeight='600'>Faltas</Typography>
             <Table>
                 <TableHead>
                     <TableRow>
                         <TableCell>Data</TableCell>
                         <TableCell>Situação</TableCell>
-                        <TableCell></TableCell>
+                        <TableCell align='center'>Anexo</TableCell>
                     </TableRow>
                 </TableHead>
 

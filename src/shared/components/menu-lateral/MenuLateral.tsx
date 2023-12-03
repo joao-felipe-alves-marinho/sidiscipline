@@ -11,6 +11,7 @@ export const MenuLateral: React.FC<PropsWithChildren> = ({ children }) => {
     const smDown = useMediaQuery(theme.breakpoints.down('sm'));
 
     const userName = JSON.parse(localStorage.getItem('user')!).name;
+    const userAvatar = JSON.parse(localStorage.getItem('user')!).avatar;
 
     const { isDrawerOpen, toggleDrawer } = useDrawerContext();
 
@@ -52,12 +53,16 @@ export const MenuLateral: React.FC<PropsWithChildren> = ({ children }) => {
                                     <ChevronLeft />
                                 </IconButton>
                             </Box>
-                            <Avatar sx={{
-                                width: theme.spacing(10),
-                                height: theme.spacing(10),
-                                bgcolor: 'secondary.main',
-                                color: 'black'
-                            }}>
+                            <Avatar
+                                alt={userName}
+                                src={`http://127.0.0.1:5000/sidi_ponto/v1/pontos/1/avatars/${userAvatar}`}
+                                sx={{
+                                    width: theme.spacing(10),
+                                    height: theme.spacing(10),
+                                    bgcolor: 'secondary.main',
+                                    color: 'black'
+                                }}
+                            >
                                 {userName.charAt(0)}
                             </Avatar>
                             <Typography paddingY={1} variant='body1'>{userName}</Typography>
