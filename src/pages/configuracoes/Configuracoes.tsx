@@ -43,9 +43,9 @@ export const Configuracoes = () => {
             } else {
                 user.avatar = result.avatar;
                 localStorage.setItem('user', JSON.stringify(user));
+                window.location.reload();
             }
         });
-        window.location.reload();
     };
 
     const [showPassword, setShowPassword] = useState(false);
