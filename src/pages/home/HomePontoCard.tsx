@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Box, Button, Card, CardActions, CardContent, Dialog, DialogActions, DialogContent, DialogTitle, Icon, IconButton, Stack, TextField, Typography, useTheme } from '@mui/material';
+import { Box, Button, Card, CardActions, CardContent, Dialog, DialogActions, DialogContent, DialogTitle, Icon, IconButton, Stack, TextField, Tooltip, Typography, useTheme } from '@mui/material';
+import { MapContainer, Marker, TileLayer, useMapEvents } from 'react-leaflet';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -34,9 +35,20 @@ const AjustreSchema = yup.object({
 export const HomePontoCard = (props: IHomePontoCardProps) => {
     const theme = useTheme();
     const [check, setChecked] = useState(false);
-    const [location, setLocation] = useState<ILocation>();
+    const [location, setLocation] = useState<ILocation>({
+        latitude: -8.0870468,
+        longitude: -34.8919661
+    });
     const [storeTime, setStoreTime] = useState(props.time);
-    const [open, setOpen] = useState(false);
+    const [openAjustre, setOpenAjustre] = useState(false);
+    const [openMap, setOpenMap] = useState(false);
+
+    const toggleOpenAjustre = () => {
+        setOpenAjustre(oldOpen => !oldOpen);
+    };
+    const toggleOpenMap = () => {
+        setOpenMap(oldOpen => !oldOpen);
+    };
 
     const user_id = JSON.parse(localStorage.getItem('user')!).id;
     const data = new Date().toLocaleDateString(undefined, {
@@ -65,9 +77,6 @@ export const HomePontoCard = (props: IHomePontoCardProps) => {
         }
     }, [props.pontoData.horario, props.pontoData.location?.latitude, props.pontoData.location?.longitude]);
 
-    const toggleOpen = () => {
-        setOpen(oldOpen => !oldOpen);
-    };
 
     const getLocalization = () => {
         navigator.geolocation.getCurrentPosition((position) => {
@@ -105,7 +114,20 @@ export const HomePontoCard = (props: IHomePontoCardProps) => {
                 console.log(result);
             }
         });
-        toggleOpen();
+        toggleOpenAjustre();
+    };
+
+    const LocationFinderDummy = () => {
+        useMapEvents({
+            click(e) {
+                setLocation({
+                    latitude: e.latlng.lat,
+                    longitude: e.latlng.lng
+                });
+                console.log(location);
+            },
+        });
+        return null;
     };
 
     return (
@@ -128,18 +150,22 @@ export const HomePontoCard = (props: IHomePontoCardProps) => {
                     label='Localização'
                     value={location ? [location.latitude, location.longitude].join(', ') : ''}
                     disabled={check}
+                    onClick={toggleOpenMap}
                     InputProps={{
                         readOnly: true,
-                        endAdornment: (
-                            <IconButton
-                                aria-label='botão localização'
-                                color='inherit'
-                                size='large'
-                                onClick={getLocalization}
-                                sx={{ visibility: check ? 'Hidden' : '' }}
-                            >
-                                <Icon>my_location</Icon>
-                            </IconButton>
+                        endAdornment: (check ? null :
+                            <Tooltip title='Pegar localização atual' placement='top' arrow>
+                                <IconButton
+                                    aria-label='botão localização'
+                                    color='inherit'
+                                    size='large'
+                                    onClick={getLocalization}
+                                    disabled={check}
+                                    sx={{ visibility: check ? 'Hidden' : '' }}
+                                >
+                                    <Icon>my_location</Icon>
+                                </IconButton>
+                            </Tooltip>
                         ),
                     }}
                 />
@@ -187,15 +213,46 @@ export const HomePontoCard = (props: IHomePontoCardProps) => {
                                 height: theme.spacing(6),
                                 fontSize: theme.spacing(2.4)
                             }}
-                            onClick={toggleOpen}
+                            onClick={toggleOpenAjustre}
                         >
                             Ajustrar Ponto
                         </Button>
                     }
                     <Dialog
-                        open={open}
-                        onClose={toggleOpen}
-                        fullWidth 
+                        aria-label='Mapa'
+                        open={openMap}
+                        onClose={toggleOpenMap}
+                        maxWidth={false}
+                        fullWidth
+                    >
+                        <DialogTitle variant='h5' fontWeight='500' align='center'>
+                            Informe sua Localização
+                        </DialogTitle>
+                        <DialogContent >
+                            <Stack height={theme.spacing(50)} width='100%'>
+                                <MapContainer
+                                    center={[location.latitude, location.longitude]}
+                                    zoom={13}
+                                    style={{
+                                        height: '100%',
+                                        width: '100%'
+                                    }}
+                                >
+                                    <LocationFinderDummy />
+                                    <TileLayer
+                                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                    />
+                                    <Marker position={[location.latitude, location.longitude]} />
+                                </MapContainer>
+                            </Stack>
+                        </DialogContent>
+                    </Dialog>
+                    <Dialog
+                        aria-label='Ajustre de Ponto'
+                        open={openAjustre}
+                        onClose={toggleOpenAjustre}
+                        fullWidth
                         component='form'
                         onSubmit={handleSubmit(onSubmit)}
                     >
@@ -209,17 +266,20 @@ export const HomePontoCard = (props: IHomePontoCardProps) => {
                                     fullWidth
                                     label='Nova Localização'
                                     value={location ? [location.latitude, location.longitude].join(', ') : ''}
+                                    onClick={toggleOpenMap}
                                     InputProps={{
                                         readOnly: true,
                                         endAdornment: (
-                                            <IconButton
-                                                aria-label='botão localização'
-                                                color='inherit'
-                                                size='large'
-                                                onClick={getLocalization}
-                                            >
-                                                <Icon>my_location</Icon>
-                                            </IconButton>
+                                            <Tooltip title='Pegar localização atual' placement='top' arrow>
+                                                <IconButton
+                                                    aria-label='botão localização'
+                                                    color='inherit'
+                                                    size='large'
+                                                    onClick={getLocalization}
+                                                >
+                                                    <Icon>my_location</Icon>
+                                                </IconButton>
+                                            </Tooltip>
                                         ),
                                     }}
                                 />
@@ -240,7 +300,7 @@ export const HomePontoCard = (props: IHomePontoCardProps) => {
                             </Stack>
                         </DialogContent>
                         <DialogActions sx={{ justifyContent: 'space-between' }} >
-                            <Button color='error' onClick={toggleOpen}>Cancelar</Button>
+                            <Button color='error' onClick={toggleOpenAjustre}>Cancelar</Button>
                             <Button
                                 color='secondary'
                                 type='submit'
