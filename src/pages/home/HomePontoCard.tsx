@@ -52,7 +52,7 @@ export const HomePontoCard = (props: IHomePontoCardProps) => {
 
     const user_id = JSON.parse(localStorage.getItem('user')!).id;
     const data = new Date().toLocaleDateString(undefined, {
-        dateStyle: 'short'
+        dateStyle: 'medium'
     });
 
     const { register, handleSubmit, formState: { errors, isDirty, isValid } } = useForm({
