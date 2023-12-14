@@ -215,7 +215,7 @@ export const HomePontoCard = (props: IHomePontoCardProps) => {
                             }}
                             onClick={toggleOpenAjustre}
                         >
-                            Ajustrar Ponto
+                            Ajustar  Ponto
                         </Button>
                     }
                     <Dialog
