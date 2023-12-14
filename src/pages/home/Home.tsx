@@ -28,7 +28,7 @@ export const Home = () => {
 
     useEffect(() => {
         const data = date.toLocaleDateString(undefined, {
-            dateStyle: 'short'
+            dateStyle: 'medium'
         });
         const user_id = JSON.parse(localStorage.getItem('user')!).id;
         PontoService.getPontoData(user_id, data).then(result => {
